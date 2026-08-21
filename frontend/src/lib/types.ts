@@ -273,6 +273,10 @@ export interface components {
             cursos_resumen: {
                 [key: string]: components["schemas"]["CursoResumenOut"][];
             };
+            /** Sedes */
+            sedes: {
+                [key: string]: components["schemas"]["SedeOut"][];
+            };
         };
         /** ComunaOut */
         ComunaOut: {
@@ -722,6 +726,7 @@ export interface operations {
             query?: {
                 q?: string | null;
                 comuna?: string | null;
+                region?: number | null;
                 dependencia?: string | null;
                 regimen?: string | null;
                 nivel?: string | null;

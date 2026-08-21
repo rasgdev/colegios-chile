@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import Combobox from "./Combobox";
 import { EMPTY_FILTERS, getComunas, getRegiones, queryKeys, type FiltersState } from "../../lib/api";
 import {
   DEPENDENCIAS,
@@ -29,25 +29,22 @@ const COPAGO_OPTIONS = [
 ];
 
 export default function Filters({ filters, onChange }: Props) {
-  const [region, setRegion] = useState<number | "">("");
-
   const { data: regiones, isLoading: regionesLoading } = useQuery({
     queryKey: queryKeys.regiones,
     queryFn: getRegiones,
   });
 
   const { data: comunas, isLoading: comunasLoading } = useQuery({
-    queryKey: queryKeys.comunas(region as number),
-    queryFn: () => getComunas(region as number),
-    enabled: region !== "",
+    queryKey: queryKeys.comunas(filters.region as number),
+    queryFn: () => getComunas(filters.region as number),
+    enabled: filters.region != null,
   });
 
   const set = (patch: Partial<FiltersState>) => onChange({ ...filters, ...patch });
 
   const handleRegion = (value: string) => {
-    const code = value === "" ? "" : Number(value);
-    setRegion(code);
-    set({ comuna: "" });
+    const code = value === "" ? null : Number(value);
+    onChange({ ...filters, region: code, comuna: "" });
   };
 
   const toggleEtiqueta = (et: string) => {
@@ -58,6 +55,11 @@ export default function Filters({ filters, onChange }: Props) {
         : [...filters.etiquetas, et],
     });
   };
+
+  const comunaOptions = [
+    { value: "", label: "Todas las comunas" },
+    ...(comunas ?? []).map((c) => ({ value: c.nombre, label: c.nombre })),
+  ];
 
   return (
     <aside className="h-fit space-y-4 rounded-lg border border-slate-200 bg-white p-4 shadow-sm lg:sticky lg:top-4">
@@ -72,7 +74,7 @@ export default function Filters({ filters, onChange }: Props) {
         <select
           id="f-region"
           className={selectCls}
-          value={region}
+          value={filters.region ?? ""}
           onChange={(e) => handleRegion(e.target.value)}
           disabled={regionesLoading}
         >
@@ -89,21 +91,15 @@ export default function Filters({ filters, onChange }: Props) {
         <label className="mb-1 block text-sm font-medium text-slate-700" htmlFor="f-comuna">
           Comuna
         </label>
-        <select
+        <Combobox
           id="f-comuna"
-          className={selectCls}
           value={filters.comuna}
-          onChange={(e) => set({ comuna: e.target.value })}
-          disabled={region === "" || comunasLoading}
-        >
-          <option value="">Todas las comunas</option>
-          {comunas?.map((c) => (
-            <option key={c.codigo} value={c.nombre}>
-              {c.nombre}
-            </option>
-          ))}
-        </select>
-        {region === "" && (
+          onChange={(v) => set({ comuna: v })}
+          options={comunaOptions}
+          placeholder="Busca una comuna…"
+          disabled={filters.region == null || comunasLoading}
+        />
+        {filters.region == null && (
           <p className="mt-1 text-xs text-slate-400">Elige una región para filtrar por comuna.</p>
         )}
       </div>
@@ -208,10 +204,7 @@ export default function Filters({ filters, onChange }: Props) {
 
       <button
         type="button"
-        onClick={() => {
-          setRegion("");
-          onChange(EMPTY_FILTERS);
-        }}
+        onClick={() => onChange(EMPTY_FILTERS)}
         className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-600 transition hover:bg-slate-100"
       >
         Limpiar filtros

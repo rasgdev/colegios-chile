@@ -1,7 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
-import { compareSchools, queryKeys, searchSchools } from "../../lib/api";
-import { dependenciaLabel, regimenLabel } from "../../lib/format";
+import {
+  compareSchools,
+  queryKeys,
+  searchSchools,
+  type IndicadorOut,
+  type SedeOut,
+} from "../../lib/api";
+import {
+  copagoResumen,
+  dependenciaLabel,
+  gseLabel,
+  gseVeredict,
+  indicadorDef,
+  nivelEducativoLabel,
+  regimenLabel,
+} from "../../lib/format";
 
 const MAX = 10;
 
@@ -23,6 +37,44 @@ function useDebouncedValue<T>(value: T, delay: number): T {
     return () => clearTimeout(t);
   }, [value, delay]);
   return debounced;
+}
+
+type IndKey = { nombre: string; nivel: string | null };
+
+function collectKeys(
+  indicadores: Record<string, IndicadorOut[]>,
+  tipo: string,
+): IndKey[] {
+  const map = new Map<string, IndKey>();
+  for (const list of Object.values(indicadores)) {
+    for (const ind of list) {
+      if (ind.tipo_indicador !== tipo) continue;
+      const key = `${ind.nombre_indicador}|${ind.nivel_indicador ?? ""}`;
+      if (!map.has(key)) {
+        map.set(key, { nombre: ind.nombre_indicador, nivel: ind.nivel_indicador ?? null });
+      }
+    }
+  }
+  return Array.from(map.values());
+}
+
+function dotClass(glosa: string | null | undefined): string {
+  switch (gseVeredict(glosa)) {
+    case "alto":
+      return "bg-green-500";
+    case "similar":
+      return "bg-slate-400";
+    case "bajo":
+      return "bg-red-500";
+    default:
+      return "bg-slate-300";
+  }
+}
+
+function ubicacionSedes(sedes: SedeOut[]): string {
+  return sedes
+    .map((s) => [s.calle, s.comuna, s.region].filter((v) => !!v).join(", "))
+    .join("\n");
 }
 
 function CompareExperience() {
@@ -72,11 +124,45 @@ function CompareExperience() {
   const removeRbd = (rbd: number) => setRbds(rbds.filter((r) => r !== rbd));
 
   const establecimientos = data?.establecimientos ?? [];
-  const indicadorKeys = Array.from(
-    new Set(
-      (data ? Object.values(data.indicadores).flat() : []).map((i) => i.nombre_indicador),
-    ),
+  const simceKeys = data ? collectKeys(data.indicadores, "SIMCE") : [];
+  const desarrolloKeys = data ? collectKeys(data.indicadores, "DESARROLLO_PERSONAL") : [];
+
+  const sectionRow = (title: string) => (
+    <tr className="border-b border-slate-200 bg-slate-50">
+      <td colSpan={establecimientos.length + 1} className="px-4 py-2 text-sm font-semibold text-slate-600">
+        {title}
+      </td>
+    </tr>
   );
+
+  const indicatorRow = (key: IndKey) => {
+    const label = key.nivel
+      ? `${key.nombre} · ${nivelEducativoLabel(key.nivel)}`
+      : key.nombre;
+    return (
+      <tr key={`${key.nombre}-${key.nivel}`}>
+        <td className="px-4 py-2 text-slate-600">
+          <span title={indicadorDef(key.nombre)}>{label}</span>
+        </td>
+        {establecimientos.map((e) => {
+          const ind = data?.indicadores[String(e.rbd)]?.find(
+            (i) => i.nombre_indicador === key.nombre && i.nivel_indicador === key.nivel,
+          );
+          return (
+            <td key={e.rbd} className="px-4 py-2">
+              <div className="flex items-center gap-2">
+                <span className="font-medium">{ind?.puntaje != null ? ind.puntaje : "—"}</span>
+                <span
+                  title={gseLabel(ind?.comparacion_gse_glosa)}
+                  className={`h-2.5 w-2.5 rounded-full ${dotClass(ind?.comparacion_gse_glosa)}`}
+                ></span>
+              </div>
+            </td>
+          );
+        })}
+      </tr>
+    );
+  };
 
   return (
     <div className="space-y-6">
@@ -108,7 +194,7 @@ function CompareExperience() {
                 >
                   <span className="truncate">{s.nombre}</span>
                   <span className="ml-2 shrink-0 text-xs text-slate-400">
-                    {dependenciaLabel(s.dependencia)} · RBD {s.rbd}
+                    {dependenciaLabel(s.dependencia)}
                   </span>
                 </button>
               </li>
@@ -126,7 +212,7 @@ function CompareExperience() {
                 key={rbd}
                 className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1 text-sm text-brand-800"
               >
-                {est?.nombre ?? `RBD ${rbd}`}
+                {est?.nombre ?? `Colegio ${rbd}`}
                 <button
                   type="button"
                   onClick={() => removeRbd(rbd)}
@@ -147,76 +233,94 @@ function CompareExperience() {
       )}
 
       {data && establecimientos.length > 0 && (
-        <div className="overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-sm">
-          <table className="w-full min-w-[600px] border-collapse text-sm">
-            <thead>
-              <tr className="border-b border-slate-200 bg-slate-50">
-                <th className="px-4 py-3 text-left font-semibold text-slate-600">Atributo</th>
-                {establecimientos.map((e) => (
-                  <th key={e.rbd} className="px-4 py-3 text-left font-semibold text-slate-900">
-                    <a href={`/colegio/${e.rbd}`} className="hover:text-brand-600">
-                      {e.nombre}
-                    </a>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              <tr>
-                <td className="px-4 py-2 font-medium text-slate-500">RBD</td>
-                {establecimientos.map((e) => (
-                  <td key={e.rbd} className="px-4 py-2">{e.rbd}</td>
-                ))}
-              </tr>
-              <tr>
-                <td className="px-4 py-2 font-medium text-slate-500">Dependencia</td>
-                {establecimientos.map((e) => (
-                  <td key={e.rbd} className="px-4 py-2">{dependenciaLabel(e.dependencia)}</td>
-                ))}
-              </tr>
-              <tr>
-                <td className="px-4 py-2 font-medium text-slate-500">Régimen</td>
-                {establecimientos.map((e) => (
-                  <td key={e.rbd} className="px-4 py-2">
-                    {e.regimen ? regimenLabel(e.regimen) : "—"}
-                  </td>
-                ))}
-              </tr>
-              <tr>
-                <td className="px-4 py-2 font-medium text-slate-500">Niveles</td>
-                {establecimientos.map((e) => (
-                  <td key={e.rbd} className="px-4 py-2">
-                    {e.nivel_minimo ?? "—"} a {e.nivel_maximo ?? "—"}
-                  </td>
-                ))}
-              </tr>
-              <tr>
-                <td className="px-4 py-2 font-medium text-slate-500">Matrícula</td>
-                {establecimientos.map((e) => (
-                  <td key={e.rbd} className="px-4 py-2">
-                    {e.alumnos_matriculados != null
-                      ? e.alumnos_matriculados.toLocaleString("es-CL")
-                      : "—"}
-                  </td>
-                ))}
-              </tr>
-              {indicadorKeys.map((key) => (
-                <tr key={key}>
-                  <td className="px-4 py-2 font-medium text-slate-500">{key}</td>
-                  {establecimientos.map((e) => {
-                    const ind = data.indicadores[String(e.rbd)]?.find(
-                      (i) => i.nombre_indicador === key,
-                    );
-                    return (
-                      <td key={e.rbd} className="px-4 py-2">
-                        {ind?.puntaje != null ? ind.puntaje : "—"}
-                      </td>
-                    );
-                  })}
+        <div className="space-y-2">
+          <p className="text-xs text-slate-500">
+            El puntaje es comparable entre colegios. El color compara cada colegio con su propio
+            grupo socioeconómico, no con los otros colegios de esta tabla.
+          </p>
+          <div className="overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-sm">
+            <table className="w-full min-w-[600px] border-collapse text-sm">
+              <thead>
+                <tr className="border-b border-slate-200 bg-slate-50">
+                  <th className="px-4 py-3 text-left font-semibold text-slate-600">Atributo</th>
+                  {establecimientos.map((e) => (
+                    <th key={e.rbd} className="px-4 py-3 text-left font-semibold text-slate-900">
+                      <a href={`/colegio/${e.rbd}`} className="hover:text-brand-600">
+                        {e.nombre}
+                      </a>
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {sectionRow("Datos generales")}
+                <tr>
+                  <td className="px-4 py-2 text-slate-600">Dependencia</td>
+                  {establecimientos.map((e) => (
+                    <td key={e.rbd} className="px-4 py-2">{dependenciaLabel(e.dependencia)}</td>
+                  ))}
+                </tr>
+                <tr>
+                  <td className="px-4 py-2 text-slate-600">Régimen</td>
+                  {establecimientos.map((e) => (
+                    <td key={e.rbd} className="px-4 py-2">
+                      {e.regimen ? regimenLabel(e.regimen) : "—"}
+                    </td>
+                  ))}
+                </tr>
+                <tr>
+                  <td className="px-4 py-2 text-slate-600">Ubicación</td>
+                  {establecimientos.map((e) => (
+                    <td key={e.rbd} className="px-4 py-2 whitespace-pre-line">
+                      {ubicacionSedes(data.sedes[String(e.rbd)] ?? []) || "—"}
+                    </td>
+                  ))}
+                </tr>
+                <tr>
+                  <td className="px-4 py-2 text-slate-600">Niveles</td>
+                  {establecimientos.map((e) => (
+                    <td key={e.rbd} className="px-4 py-2">
+                      {e.nivel_minimo ?? "—"} a {e.nivel_maximo ?? "—"}
+                    </td>
+                  ))}
+                </tr>
+                <tr>
+                  <td className="px-4 py-2 text-slate-600">Estudiantes matriculados</td>
+                  {establecimientos.map((e) => (
+                    <td key={e.rbd} className="px-4 py-2">
+                      {e.alumnos_matriculados != null
+                        ? e.alumnos_matriculados.toLocaleString("es-CL")
+                        : "—"}
+                    </td>
+                  ))}
+                </tr>
+
+                {sectionRow("Copago")}
+                <tr>
+                  <td className="px-4 py-2 text-slate-600">Copago mensual</td>
+                  {establecimientos.map((e) => (
+                    <td key={e.rbd} className="px-4 py-2">
+                      {copagoResumen(data.cursos_resumen[String(e.rbd)] ?? [])}
+                    </td>
+                  ))}
+                </tr>
+
+                {simceKeys.length > 0 && (
+                  <>
+                    {sectionRow("SIMCE")}
+                    {simceKeys.map(indicatorRow)}
+                  </>
+                )}
+
+                {desarrolloKeys.length > 0 && (
+                  <>
+                    {sectionRow("Desarrollo personal")}
+                    {desarrolloKeys.map(indicatorRow)}
+                  </>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>

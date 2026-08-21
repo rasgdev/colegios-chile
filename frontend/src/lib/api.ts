@@ -19,6 +19,7 @@ export const API_BASE =
 export type SearchParams = {
   q?: string;
   comuna?: string;
+  region?: number | null;
   dependencia?: string;
   regimen?: string;
   nivel?: string;
@@ -30,6 +31,7 @@ export type SearchParams = {
 
 export type FiltersState = {
   comuna: string;
+  region: number | null;
   dependencia: string;
   regimen: string;
   nivel: string;
@@ -39,6 +41,7 @@ export type FiltersState = {
 
 export const EMPTY_FILTERS: FiltersState = {
   comuna: "",
+  region: null,
   dependencia: "",
   regimen: "",
   nivel: "",
