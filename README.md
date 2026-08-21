@@ -180,6 +180,7 @@ Resultados en `data/processed/latest/report.json` y `logs/`.
 - [docs/DATA_LOADING.md](docs/DATA_LOADING.md) — estrategia de carga (staging + swap) y orden de ejecución
 - [docs/DATA_DICTIONARY.md](docs/DATA_DICTIONARY.md) — mapeo JSON/Parquet → PostgreSQL campo a campo
 - [docs/STORAGE.md](docs/STORAGE.md) — estrategia de almacenamiento de imágenes
+- [docs/INDICADORES.md](docs/INDICADORES.md) — glosario SIMCE/IDPS + GSE (con fuentes)
 - [docs/SECURITY.md](docs/SECURITY.md) — seguridad de la API (rate limiting, CORS, X-Forwarded-For)
 - [docs/KNOWN_ISSUES.md](docs/KNOWN_ISSUES.md) — limitaciones del dataset
 

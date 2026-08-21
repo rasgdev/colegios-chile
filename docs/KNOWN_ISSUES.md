@@ -26,6 +26,11 @@
 - Integridad referencial limpia: 0 sedes huérfanas, 0 cursos sin sede, 0 RBDs duplicados, 0 establecimientos sin sedes.
 - 0 nulls en claves primarias (`rbd`, `nombre`, `codigo_sede`).
 
+## Pendiente (próxima sesión)
+
+- **Saneo de caracteres de control en `resumen_proyecto`**: 7.184 filas contienen caracteres de control (`\x00`–`\x1f`, p. ej. `\x1a`) y `\r\n`. Aplicar limpieza en `etl/transform/normalizers.py` (strip de control chars + normalizar saltos de línea) y re-correr `make transform` + `make load-db` para propagarlo. El frontend ya hace un saneo defensivo al renderizar (`sanitizeText` en `frontend/src/lib/format.ts`), pero el fix real es en el ETL.
+- **GSE por colegio (Opción B)**: el dataset SAE no incluye el grupo socioeconómico (GSE) de cada colegio, solo el resultado de la comparación (`indicadores.comparacion_gse_glosa`). Para identificar "GSE: Alto/Medio-Bajo" por establecimiento se requeriría ingerir una fuente adicional (SIMCE / Agencia de Calidad) y cruzar por RBD. Documentado en `docs/INDICADORES.md`.
+
 ## Naming en el mapeo de comunas
 
 - `assets/comunas_mapeo.json` contiene variantes/typos de nombres: `MARCHIGUE`→`MARCHIHUE`, `ANTARTIDA`→`ANTARTICA`, `EST CENTRAL`→`ESTACION CENTRAL`. El script de validación normaliza (tildes, espacios, guiones, apóstrofes) antes de comparar.
