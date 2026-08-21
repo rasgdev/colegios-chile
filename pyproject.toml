@@ -52,3 +52,11 @@ target-version = "py312"
 [tool.ruff.lint]
 select = ["E", "F", "B"]
 ignore = ["E501", "B008"]
+
+[tool.mypy]
+python_version = "3.12"
+check_untyped_defs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+no_implicit_optional = true
+files = ["src"]

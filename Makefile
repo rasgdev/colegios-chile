@@ -1,5 +1,5 @@
-.PHONY: help install install-dev test discover etl transform validate load-db all clean \
-	db-up db-down init-db migrate seed-demo backend frontend
+.PHONY: help install install-dev test typecheck lint discover etl transform validate load-db all clean \
+	db-up db-down init-db migrate seed-demo backend frontend frontend-lint frontend-typecheck
 
 .DEFAULT_GOAL := help
 
@@ -33,6 +33,10 @@ help:
 	@echo "  install     Instala dependencias de runtime (pip install -e .)."
 	@echo "  install-dev Instala dependencias de runtime + desarrollo."
 	@echo "  test        Ejecuta la suite de tests con pytest."
+	@echo "  lint        Lint backend (ruff)."
+	@echo "  typecheck   Type-check backend (mypy)."
+	@echo "  frontend-lint        Lint frontend (eslint)."
+	@echo "  frontend-typecheck   Type-check frontend (astro check)."
 	@echo "  clean       Borra data/raw/, data/processed/, data/state.json y logs/."
 
 install:
@@ -43,6 +47,18 @@ install-dev:
 
 test:
 	python3 -m pytest
+
+typecheck:
+	python3 -m mypy src
+
+lint:
+	ruff check src etl config scripts tests
+
+frontend-lint:
+	npm --prefix frontend run lint
+
+frontend-typecheck:
+	npm --prefix frontend run typecheck
 
 discover:
 	python3 scripts/discover_comunas.py

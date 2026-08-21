@@ -15,18 +15,18 @@ no deja la base inconsistente (el swap es una transacción).
 
 from __future__ import annotations
 
-import logging
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Iterable
 
 import polars as pl
+import structlog
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 
 from config.settings import settings
 
-log = logging.getLogger(__name__)
+log = structlog.get_logger(__name__)
 
 CHUNK_SIZE = 2_000
 
