@@ -161,6 +161,23 @@
             }
           },
           {
+            "name": "region",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Region"
+            }
+          },
+          {
             "name": "dependencia",
             "in": "query",
             "required": false,
@@ -829,13 +846,24 @@
             },
             "type": "object",
             "title": "Cursos Resumen"
+          },
+          "sedes": {
+            "additionalProperties": {
+              "items": {
+                "$ref": "#/components/schemas/SedeOut"
+              },
+              "type": "array"
+            },
+            "type": "object",
+            "title": "Sedes"
           }
         },
         "type": "object",
         "required": [
           "establecimientos",
           "indicadores",
-          "cursos_resumen"
+          "cursos_resumen",
+          "sedes"
         ],
         "title": "CompareResponse"
       },
