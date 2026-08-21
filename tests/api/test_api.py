@@ -122,3 +122,39 @@ def test_compare_rbd_inexistente_404(client):
     r = client.get("/api/v1/compare", params={"rbds": "60,99999999"})
     assert r.status_code == 404
     assert r.json()["error"] == "colegios_no_encontrados"
+
+
+# ── Caché HTTP (ETag) ─────────────────────────────────────────────────────────
+
+
+def test_ficha_emite_etag(client):
+    r = client.get("/api/v1/establecimientos/60")
+    assert r.status_code == 200
+    assert r.headers.get("ETag")
+    assert "must-revalidate" in r.headers.get("Cache-Control", "")
+
+
+def test_ficha_304_con_if_none_match(client):
+    r1 = client.get("/api/v1/establecimientos/60")
+    etag = r1.headers["ETag"]
+    r2 = client.get("/api/v1/establecimientos/60", headers={"If-None-Match": etag})
+    assert r2.status_code == 304
+    assert r2.content == b""
+
+
+def test_etag_cambia_con_query_distinta(client):
+    r1 = client.get("/api/v1/establecimientos", params={"limit": 5})
+    r2 = client.get("/api/v1/establecimientos", params={"limit": 10})
+    assert r1.headers["ETag"] != r2.headers["ETag"]
+
+
+def test_referencia_etag_publico(client):
+    r = client.get("/api/v1/regiones")
+    assert r.headers.get("ETag")
+    assert "max-age=86400" in r.headers.get("Cache-Control", "")
+
+
+def test_compare_emite_etag(client):
+    r = client.get("/api/v1/compare", params={"rbds": "60,22248"})
+    assert r.status_code == 200
+    assert r.headers.get("ETag")

@@ -1,9 +1,10 @@
 """Endpoint de sedes: GET /api/v1/sedes?rbd=."""
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Request, Response
 
 from src.api.deps import get_establecimiento_repo, get_sede_repo
+from src.api.etag import apply_etag
 from src.api.limiter import limiter
 from src.api.schemas.sedes import SedeOut
 from src.domain.exceptions import EstablecimientoNotFound
@@ -16,10 +17,13 @@ router = APIRouter(tags=["sedes"])
 @limiter.limit("60/minute")
 async def list_sedes(
     request: Request,
+    response: Response,
     rbd: int,
     repo: SqlSedeRepository = Depends(get_sede_repo),
     est_repo: SqlEstablecimientoRepository = Depends(get_establecimiento_repo),
-) -> list[SedeOut]:
+) -> list[SedeOut] | Response:
+    if (not_modified := apply_etag(request, response)) is not None:
+        return not_modified
     if not await est_repo.exists(rbd):
         raise EstablecimientoNotFound(rbd)
     return [SedeOut.model_validate(s) for s in await repo.by_rbd(rbd)]

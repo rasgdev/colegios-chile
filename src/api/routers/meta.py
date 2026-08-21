@@ -1,10 +1,11 @@
 """Endpoints de meta: /health y /stats."""
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Request, Response
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.api.etag import apply_etag
 from src.api.schemas.meta import HealthResponse, StatsResponse
 from src.infrastructure.db import orm
 from src.infrastructure.db.session import get_session
@@ -21,7 +22,14 @@ async def health(request: Request) -> HealthResponse:
 
 
 @router.get("/stats", response_model=StatsResponse)
-async def stats(session: AsyncSession = Depends(get_session)) -> StatsResponse:
+async def stats(
+    request: Request,
+    response: Response,
+    session: AsyncSession = Depends(get_session),
+) -> StatsResponse | Response:
+    if (not_modified := apply_etag(request, response)) is not None:
+        return not_modified
+
     async def _count(model) -> int:
         return (await session.execute(select(func.count()).select_from(model))).scalar_one()
 

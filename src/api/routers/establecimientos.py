@@ -1,9 +1,10 @@
 """Endpoints de establecimientos: listado paginado y ficha completa."""
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, Query, Request
+from fastapi import APIRouter, Depends, Query, Request, Response
 
 from src.api.deps import get_establecimiento_repo, get_ficha_use_case
+from src.api.etag import apply_etag
 from src.api.limiter import limiter
 from src.api.schemas.establecimientos import (
     EstablecimientoListItem,
@@ -20,12 +21,15 @@ router = APIRouter(tags=["establecimientos"])
 @limiter.limit("60/minute")
 async def list_establecimientos(
     request: Request,
+    response: Response,
     dependencia: str | None = None,
     regimen: str | None = None,
     limit: int = Query(default=20, ge=1, le=100),
     offset: int = Query(default=0, ge=0),
     repo: SqlEstablecimientoRepository = Depends(get_establecimiento_repo),
-) -> EstablecimientoListResponse:
+) -> EstablecimientoListResponse | Response:
+    if (not_modified := apply_etag(request, response)) is not None:
+        return not_modified
     items, total = await repo.list_paginated(
         limit,
         offset,
@@ -44,8 +48,11 @@ async def list_establecimientos(
 @limiter.limit("60/minute")
 async def get_ficha(
     request: Request,
+    response: Response,
     rbd: int,
     use_case: FichaUseCase = Depends(get_ficha_use_case),
-) -> FichaOut:
+) -> FichaOut | Response:
+    if (not_modified := apply_etag(request, response)) is not None:
+        return not_modified
     ficha = await use_case.execute(rbd)
     return FichaOut.model_validate(ficha)

@@ -10,6 +10,7 @@ from __future__ import annotations
 from fastapi import APIRouter, Depends, Query, Request, Response
 
 from src.api.deps import get_comuna_repo, get_region_repo
+from src.api.etag import apply_etag
 from src.api.limiter import limiter
 from src.api.schemas.referencia import ComunaOut, RegionOut
 from src.infrastructure.db.repositories import SqlComunaRepository, SqlRegionRepository
@@ -25,8 +26,9 @@ async def list_regiones(
     request: Request,
     response: Response,
     repo: SqlRegionRepository = Depends(get_region_repo),
-) -> list[RegionOut]:
-    response.headers["Cache-Control"] = _REFERENCE_CACHE
+) -> list[RegionOut] | Response:
+    if (not_modified := apply_etag(request, response, cache_control=_REFERENCE_CACHE)) is not None:
+        return not_modified
     return [RegionOut.model_validate(r) for r in await repo.list_all()]
 
 
@@ -37,6 +39,7 @@ async def list_comunas(
     response: Response,
     region: int = Query(..., description="Código de región (filtro en cascada)"),
     repo: SqlComunaRepository = Depends(get_comuna_repo),
-) -> list[ComunaOut]:
-    response.headers["Cache-Control"] = _REFERENCE_CACHE
+) -> list[ComunaOut] | Response:
+    if (not_modified := apply_etag(request, response, cache_control=_REFERENCE_CACHE)) is not None:
+        return not_modified
     return [ComunaOut.model_validate(c) for c in await repo.list_by_region(region)]
