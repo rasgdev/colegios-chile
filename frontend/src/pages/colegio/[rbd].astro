@@ -1,0 +1,212 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getFicha, type FichaOut } from "../../lib/api";
+import { dependenciaLabel, etiquetaLabel, formatClp, regimenLabel } from "../../lib/format";
+
+const rbdRaw = Astro.params.rbd ?? "";
+const rbd = Number(rbdRaw);
+
+let ficha: FichaOut | null = null;
+let error: string | null = null;
+
+if (Number.isInteger(rbd) && rbd > 0) {
+  try {
+    ficha = await getFicha(rbd);
+  } catch (e) {
+    error = e instanceof Error ? e.message : "Error desconocido";
+  }
+} else {
+  error = "HTTP 404";
+}
+
+if (error) {
+  Astro.response.status = error.includes("404") ? 404 : 500;
+}
+
+const est = ficha?.establecimiento ?? null;
+---
+
+<BaseLayout
+  title={est ? `${est.nombre} — Colegios de Chile` : "Colegio no encontrado"}
+  description={est?.resumen_proyecto ?? "Ficha de establecimiento educacional"}
+>
+  {
+    error || !est ? (
+      <div class="mx-auto max-w-xl rounded-lg border border-slate-200 bg-white p-10 text-center">
+        <p class="text-2xl font-semibold text-slate-900">
+          {error?.includes("404") ? "Colegio no encontrado" : "Error al cargar la ficha"}
+        </p>
+        <p class="mt-2 text-slate-600">
+          {error?.includes("404")
+            ? "No existe un establecimiento con ese RBD, o el backend no está disponible."
+            : "Revisa que el backend esté corriendo en el puerto 8000."}
+        </p>
+        <a href="/" class="mt-6 inline-block rounded-md bg-brand-600 px-4 py-2 text-white hover:bg-brand-700">
+          Volver al buscador
+        </a>
+      </div>
+    ) : (
+      <article class="space-y-8">
+        <header>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="rounded-full bg-brand-50 px-3 py-1 text-xs font-medium text-brand-700">
+              {dependenciaLabel(est!.dependencia)}
+            </span>
+            {est!.regimen && (
+              <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">
+                {regimenLabel(est!.regimen)}
+              </span>
+            )}
+          </div>
+          <h1 class="mt-3 text-3xl font-bold text-slate-900">{est!.nombre}</h1>
+          <p class="mt-1 text-sm text-slate-500">RBD {est!.rbd}</p>
+
+          {est!.etiquetas.length > 0 && (
+            <div class="mt-3 flex flex-wrap gap-2">
+              {est!.etiquetas.map((et) => (
+                <span key={et} class="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs text-slate-700">
+                  {etiquetaLabel(et)}
+                </span>
+              ))}
+            </div>
+          )}
+        </header>
+
+        <section class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          {
+            [
+              { k: "Nivel mínimo", v: est!.nivel_minimo ?? "—" },
+              { k: "Nivel máximo", v: est!.nivel_maximo ?? "—" },
+              { k: "Matrícula", v: est!.alumnos_matriculados != null ? est!.alumnos_matriculados.toLocaleString("es-CL") : "—" },
+              { k: "Docentes", v: est!.cantidad_docentes != null ? est!.cantidad_docentes.toLocaleString("es-CL") : "—" },
+              { k: "Prom. alumnos/curso", v: est!.promedio_alumnos_por_curso != null ? String(est!.promedio_alumnos_por_curso) : "—" },
+              { k: "Director/a", v: est!.director ?? "—" },
+              { k: "Internado", v: est!.internado ? "Sí" : "No" },
+              { k: "Integración (PIE)", v: est!.integracion ? "Sí" : "No" },
+            ].map((item) => (
+              <div class="rounded-lg border border-slate-200 bg-white p-4">
+                <dt class="text-xs uppercase tracking-wide text-slate-500">{item.k}</dt>
+                <dd class="mt-1 font-medium text-slate-900">{item.v}</dd>
+              </div>
+            ))
+          }
+        </section>
+
+        {
+          (est!.telefono || est!.mail || est!.url) && (
+            <section class="rounded-lg border border-slate-200 bg-white p-5">
+              <h2 class="text-lg font-semibold text-slate-900">Contacto</h2>
+              <ul class="mt-2 space-y-1 text-sm text-slate-700">
+                {est!.telefono && <li>Teléfono: {est!.telefono}</li>}
+                {est!.mail && <li>Email: {est!.mail}</li>}
+                {est!.url && (
+                  <li>
+                    Sitio web:{" "}
+                    <a href={est!.url} class="text-brand-600 hover:underline">{est!.url}</a>
+                  </li>
+                )}
+              </ul>
+            </section>
+          )
+        }
+
+        {
+          est!.resumen_proyecto && (
+            <section class="rounded-lg border border-slate-200 bg-white p-5">
+              <h2 class="text-lg font-semibold text-slate-900">Proyecto educativo</h2>
+              <p class="mt-2 text-slate-700">{est!.resumen_proyecto}</p>
+            </section>
+          )
+        }
+
+        {
+          ficha!.sedes.length > 0 && (
+            <section class="rounded-lg border border-slate-200 bg-white p-5">
+              <h2 class="text-lg font-semibold text-slate-900">Sedes</h2>
+              <ul class="mt-3 space-y-3">
+                {ficha!.sedes.map((sede) => (
+                  <li key={`${sede.rbd}-${sede.codigo_sede}`} class="rounded-md bg-slate-50 p-3 text-sm text-slate-700">
+                    <p class="font-medium text-slate-900">{sede.comuna}, {sede.region}</p>
+                    {sede.calle && <p class="mt-1">{sede.calle}</p>}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
+
+        {
+          ficha!.cursos_resumen.length > 0 && (
+            <section class="rounded-lg border border-slate-200 bg-white p-5">
+              <h2 class="text-lg font-semibold text-slate-900">Cursos y copago</h2>
+              <div class="mt-3 overflow-x-auto">
+                <table class="w-full min-w-[560px] border-collapse text-sm">
+                  <thead>
+                    <tr class="border-b border-slate-200 text-left text-slate-500">
+                      <th class="py-2 pr-4 font-medium">Nivel</th>
+                      <th class="py-2 pr-4 font-medium">Jornada</th>
+                      <th class="py-2 pr-4 font-medium">Sexo</th>
+                      <th class="py-2 pr-4 font-medium">Cupos</th>
+                      <th class="py-2 font-medium">Copago</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100">
+                    {ficha!.cursos_resumen.map((c) => (
+                      <tr>
+                        <td class="py-2 pr-4 text-slate-700">{c.glosa_nivel ?? c.etiqueta_nivel ?? "—"}</td>
+                        <td class="py-2 pr-4 text-slate-700">{c.glosa_jornada ?? "—"}</td>
+                        <td class="py-2 pr-4 text-slate-700">{c.sexo ?? "—"}</td>
+                        <td class="py-2 pr-4 text-slate-700">{c.cupos_totales ?? "—"}</td>
+                        <td class="py-2 text-slate-700">{formatClp(c.copago_valor)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          )
+        }
+
+        {
+          ficha!.indicadores.length > 0 && (
+            <section class="rounded-lg border border-slate-200 bg-white p-5">
+              <h2 class="text-lg font-semibold text-slate-900">Indicadores</h2>
+              <ul class="mt-3 space-y-3">
+                {ficha!.indicadores.map((ind) => (
+                  <li key={ind.id} class="rounded-md bg-slate-50 p-3 text-sm">
+                    <div class="flex items-center justify-between gap-4">
+                      <div>
+                        <p class="font-medium text-slate-900">{ind.nombre_indicador}</p>
+                        {ind.nivel_indicador && (
+                          <p class="text-xs text-slate-500">{ind.nivel_indicador}</p>
+                        )}
+                      </div>
+                      {ind.puntaje != null && (
+                        <span class="shrink-0 text-lg font-semibold text-brand-700">{ind.puntaje}</span>
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
+
+        {
+          ficha!.actividades.length > 0 && (
+            <section class="rounded-lg border border-slate-200 bg-white p-5">
+              <h2 class="text-lg font-semibold text-slate-900">Actividades</h2>
+              <ul class="mt-3 flex flex-wrap gap-2">
+                {ficha!.actividades.map((a) => (
+                  <li key={a.id} class="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-700">
+                    {a.nombre}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
+      </article>
+    )
+  }
+</BaseLayout>

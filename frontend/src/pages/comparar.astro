@@ -1,0 +1,18 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ComparePage from "../components/compare/ComparePage";
+---
+
+<BaseLayout
+  title="Comparar colegios — Colegios de Chile"
+  description="Compara hasta 10 colegios de Chile lado a lado: dependencia, matrícula, niveles e indicadores."
+>
+  <section class="mb-8">
+    <h1 class="text-3xl font-bold text-slate-900">Comparar colegios</h1>
+    <p class="mt-2 text-slate-600">
+      Agrega hasta 10 colegios para verlos lado a lado.
+    </p>
+  </section>
+
+  <ComparePage client:only="react" />
+</BaseLayout>

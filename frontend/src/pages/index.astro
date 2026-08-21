@@ -1,0 +1,21 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SearchPage from "../components/search/SearchPage";
+---
+
+<BaseLayout
+  title="Buscar colegios — Colegios de Chile"
+  description="Encuentra y compara colegios de Chile con datos públicos del MINEDUC: dependencia, matrícula, copago, SIMCE y más."
+>
+  <section class="mb-8 text-center">
+    <h1 class="text-3xl font-bold text-slate-900 sm:text-4xl">
+      Encuentra el colegio ideal
+    </h1>
+    <p class="mx-auto mt-3 max-w-2xl text-slate-600">
+      7.673 colegios · 344 comunas · 16 regiones. Datos públicos del Sistema de
+      Admisión Escolar.
+    </p>
+  </section>
+
+  <SearchPage client:load />
+</BaseLayout>

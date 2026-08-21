@@ -1,0 +1,50 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+export const prerender = true;
+---
+
+<BaseLayout
+  title="Acerca — Colegios de Chile"
+  description="Información sobre el proyecto y el origen de los datos del buscador de colegios."
+>
+  <article class="mx-auto max-w-3xl space-y-6">
+    <h1 class="text-3xl font-bold text-slate-900">Acerca del proyecto</h1>
+
+    <p class="text-slate-700">
+      Colegios de Chile es un buscador público de establecimientos educacionales,
+      construido sobre los datos abiertos del{" "}
+      <a href="https://apisae.mineduc.cl" class="text-brand-600 hover:underline">
+        Sistema de Admisión Escolar (SAE)
+      </a>{" "}
+      del Ministerio de Educación (MINEDUC).
+    </p>
+
+    <section>
+      <h2 class="mb-2 text-xl font-semibold text-slate-900">¿Qué datos incluye?</h2>
+      <ul class="list-disc space-y-1 pl-5 text-slate-700">
+        <li>Información de cada colegio: dependencia, régimen, niveles y matrícula.</li>
+        <li>Sedes, comunas y regiones.</li>
+        <li>Cursos con copago, vacantes y cupos.</li>
+        <li>Indicadores (SIMCE y desempeño) y actividades extraprogramáticas.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 class="mb-2 text-xl font-semibold text-slate-900">Arquitectura</h2>
+      <p class="text-slate-700">
+        El proyecto usa un pipeline ETL (extracción, transformación y carga) desde la
+        API pública del MINEDUC hacia archivos Parquet, una base de datos PostgreSQL
+        con búsqueda full-text, una API REST en FastAPI y este frontend en Astro.
+      </p>
+    </section>
+
+    <section>
+      <h2 class="mb-2 text-xl font-semibold text-slate-900">Descargo</h2>
+      <p class="text-slate-700">
+        Este es un proyecto de portafolio sin afiliación oficial con el MINEDUC. Los
+        datos representan una instantánea y pueden no reflejar el estado más reciente.
+      </p>
+    </section>
+  </article>
+</BaseLayout>

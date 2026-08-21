@@ -1,0 +1,2101 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Buscador de Colegios de Chile",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "tags": [
+          "meta"
+        ],
+        "summary": "Health",
+        "operationId": "health_api_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/stats": {
+      "get": {
+        "tags": [
+          "meta"
+        ],
+        "summary": "Stats",
+        "operationId": "stats_api_v1_stats_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/regiones": {
+      "get": {
+        "tags": [
+          "referencia"
+        ],
+        "summary": "List Regiones",
+        "operationId": "list_regiones_api_v1_regiones_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/RegionOut"
+                  },
+                  "type": "array",
+                  "title": "Response List Regiones Api V1 Regiones Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/comunas": {
+      "get": {
+        "tags": [
+          "referencia"
+        ],
+        "summary": "List Comunas",
+        "operationId": "list_comunas_api_v1_comunas_get",
+        "parameters": [
+          {
+            "name": "region",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "Código de región (filtro en cascada)",
+              "title": "Region"
+            },
+            "description": "Código de región (filtro en cascada)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ComunaOut"
+                  },
+                  "title": "Response List Comunas Api V1 Comunas Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/search": {
+      "get": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Search",
+        "operationId": "search_api_v1_search_get",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Q"
+            }
+          },
+          {
+            "name": "comuna",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Comuna"
+            }
+          },
+          {
+            "name": "dependencia",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Dependencia"
+            }
+          },
+          {
+            "name": "regimen",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Regimen"
+            }
+          },
+          {
+            "name": "nivel",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Nivel"
+            }
+          },
+          {
+            "name": "copago_max",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Copago Max"
+            }
+          },
+          {
+            "name": "etiquetas",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Etiquetas"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 20,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/establecimientos": {
+      "get": {
+        "tags": [
+          "establecimientos"
+        ],
+        "summary": "List Establecimientos",
+        "operationId": "list_establecimientos_api_v1_establecimientos_get",
+        "parameters": [
+          {
+            "name": "dependencia",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Dependencia"
+            }
+          },
+          {
+            "name": "regimen",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Regimen"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 20,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EstablecimientoListResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/establecimientos/{rbd}": {
+      "get": {
+        "tags": [
+          "establecimientos"
+        ],
+        "summary": "Get Ficha",
+        "operationId": "get_ficha_api_v1_establecimientos__rbd__get",
+        "parameters": [
+          {
+            "name": "rbd",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Rbd"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FichaOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sedes": {
+      "get": {
+        "tags": [
+          "sedes"
+        ],
+        "summary": "List Sedes",
+        "operationId": "list_sedes_api_v1_sedes_get",
+        "parameters": [
+          {
+            "name": "rbd",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Rbd"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SedeOut"
+                  },
+                  "title": "Response List Sedes Api V1 Sedes Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cursos": {
+      "get": {
+        "tags": [
+          "cursos"
+        ],
+        "summary": "List Cursos",
+        "operationId": "list_cursos_api_v1_cursos_get",
+        "parameters": [
+          {
+            "name": "rbd",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Rbd"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CursoOut"
+                  },
+                  "title": "Response List Cursos Api V1 Cursos Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cursos/resumen": {
+      "get": {
+        "tags": [
+          "cursos"
+        ],
+        "summary": "Resumen Cursos",
+        "operationId": "resumen_cursos_api_v1_cursos_resumen_get",
+        "parameters": [
+          {
+            "name": "rbd",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Rbd"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CursoResumenOut"
+                  },
+                  "title": "Response Resumen Cursos Api V1 Cursos Resumen Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/indicadores": {
+      "get": {
+        "tags": [
+          "indicadores"
+        ],
+        "summary": "List Indicadores",
+        "operationId": "list_indicadores_api_v1_indicadores_get",
+        "parameters": [
+          {
+            "name": "rbd",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Rbd"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IndicadorOut"
+                  },
+                  "title": "Response List Indicadores Api V1 Indicadores Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/actividades": {
+      "get": {
+        "tags": [
+          "actividades"
+        ],
+        "summary": "List Actividades",
+        "operationId": "list_actividades_api_v1_actividades_get",
+        "parameters": [
+          {
+            "name": "rbd",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Rbd"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActividadOut"
+                  },
+                  "title": "Response List Actividades Api V1 Actividades Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/imagenes": {
+      "get": {
+        "tags": [
+          "imagenes"
+        ],
+        "summary": "List Imagenes",
+        "operationId": "list_imagenes_api_v1_imagenes_get",
+        "parameters": [
+          {
+            "name": "rbd",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Rbd"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ImagenOut"
+                  },
+                  "title": "Response List Imagenes Api V1 Imagenes Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/compare": {
+      "get": {
+        "tags": [
+          "compare"
+        ],
+        "summary": "Compare",
+        "operationId": "compare_api_v1_compare_get",
+        "parameters": [
+          {
+            "name": "rbds",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "RBDs separados por coma (máx. 10)",
+              "title": "Rbds"
+            },
+            "description": "RBDs separados por coma (máx. 10)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompareResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ActividadOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "rbd": {
+            "type": "integer",
+            "title": "Rbd"
+          },
+          "nombre": {
+            "type": "string",
+            "title": "Nombre"
+          },
+          "tipo": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tipo"
+          },
+          "nivel": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nivel"
+          },
+          "exigencia": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Exigencia"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "rbd",
+          "nombre"
+        ],
+        "title": "ActividadOut"
+      },
+      "CompareResponse": {
+        "properties": {
+          "establecimientos": {
+            "items": {
+              "$ref": "#/components/schemas/EstablecimientoListItem"
+            },
+            "type": "array",
+            "title": "Establecimientos"
+          },
+          "indicadores": {
+            "additionalProperties": {
+              "items": {
+                "$ref": "#/components/schemas/IndicadorOut"
+              },
+              "type": "array"
+            },
+            "type": "object",
+            "title": "Indicadores"
+          },
+          "cursos_resumen": {
+            "additionalProperties": {
+              "items": {
+                "$ref": "#/components/schemas/CursoResumenOut"
+              },
+              "type": "array"
+            },
+            "type": "object",
+            "title": "Cursos Resumen"
+          }
+        },
+        "type": "object",
+        "required": [
+          "establecimientos",
+          "indicadores",
+          "cursos_resumen"
+        ],
+        "title": "CompareResponse"
+      },
+      "ComunaOut": {
+        "properties": {
+          "codigo": {
+            "type": "integer",
+            "title": "Codigo"
+          },
+          "nombre": {
+            "type": "string",
+            "title": "Nombre"
+          },
+          "codigo_region": {
+            "type": "integer",
+            "title": "Codigo Region"
+          }
+        },
+        "type": "object",
+        "required": [
+          "codigo",
+          "nombre",
+          "codigo_region"
+        ],
+        "title": "ComunaOut"
+      },
+      "CursoOut": {
+        "properties": {
+          "rbd": {
+            "type": "integer",
+            "title": "Rbd"
+          },
+          "codigo_curso": {
+            "type": "integer",
+            "title": "Codigo Curso"
+          },
+          "codigo_sede": {
+            "type": "integer",
+            "title": "Codigo Sede"
+          },
+          "glosa_grupo_ensenanza": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Glosa Grupo Ensenanza"
+          },
+          "glosa_ensenanza": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Glosa Ensenanza"
+          },
+          "glosa_nivel": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Glosa Nivel"
+          },
+          "etiqueta_nivel": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Etiqueta Nivel"
+          },
+          "sexo": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sexo"
+          },
+          "glosa_jornada": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Glosa Jornada"
+          },
+          "glosa_especialidad": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Glosa Especialidad"
+          },
+          "glosa_grupo_pago": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Glosa Grupo Pago"
+          },
+          "codigo_ensenanza": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Codigo Ensenanza"
+          },
+          "codigo_nivel": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Codigo Nivel"
+          },
+          "codigo_jornada": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Codigo Jornada"
+          },
+          "codigo_sexo": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Codigo Sexo"
+          },
+          "codigo_especialidad": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Codigo Especialidad"
+          },
+          "unico_comuna": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unico Comuna"
+          },
+          "proporcion_excelencia_transicion": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Proporcion Excelencia Transicion"
+          },
+          "proporcion_excelencia_regimen": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Proporcion Excelencia Regimen"
+          },
+          "proporcion_especializacion_temprana": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Proporcion Especializacion Temprana"
+          },
+          "copago_cuotas": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Copago Cuotas"
+          },
+          "copago_valor": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Copago Valor"
+          },
+          "cupos_totales": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cupos Totales"
+          },
+          "vacantes_rango_inferior": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vacantes Rango Inferior"
+          },
+          "vacantes_rango_superior": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vacantes Rango Superior"
+          },
+          "porcentaje_cambio_inferior": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Porcentaje Cambio Inferior"
+          },
+          "porcentaje_cambio_superior": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Porcentaje Cambio Superior"
+          },
+          "repitentes_anio_actual": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Repitentes Anio Actual"
+          },
+          "repitentes_nivel_anterior": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Repitentes Nivel Anterior"
+          },
+          "pre_inscritos_anio_siguiente": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pre Inscritos Anio Siguiente"
+          },
+          "cambios_inferior": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cambios Inferior"
+          },
+          "cambios_superior": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cambios Superior"
+          },
+          "pre_vacantes_inferior": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pre Vacantes Inferior"
+          },
+          "pre_vacantes_superior": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pre Vacantes Superior"
+          },
+          "rango": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rango"
+          },
+          "postulantes_anio_anterior": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Postulantes Anio Anterior"
+          },
+          "movimiento_lista_espera_anterior": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Movimiento Lista Espera Anterior"
+          }
+        },
+        "type": "object",
+        "required": [
+          "rbd",
+          "codigo_curso",
+          "codigo_sede"
+        ],
+        "title": "CursoOut"
+      },
+      "CursoResumenOut": {
+        "properties": {
+          "codigo_curso": {
+            "type": "integer",
+            "title": "Codigo Curso"
+          },
+          "glosa_nivel": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Glosa Nivel"
+          },
+          "etiqueta_nivel": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Etiqueta Nivel"
+          },
+          "sexo": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sexo"
+          },
+          "glosa_jornada": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Glosa Jornada"
+          },
+          "copago_cuotas": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Copago Cuotas"
+          },
+          "copago_valor": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Copago Valor"
+          },
+          "cupos_totales": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cupos Totales"
+          }
+        },
+        "type": "object",
+        "required": [
+          "codigo_curso"
+        ],
+        "title": "CursoResumenOut"
+      },
+      "EstablecimientoListItem": {
+        "properties": {
+          "rbd": {
+            "type": "integer",
+            "title": "Rbd"
+          },
+          "nombre": {
+            "type": "string",
+            "title": "Nombre"
+          },
+          "dependencia": {
+            "type": "string",
+            "title": "Dependencia"
+          },
+          "regimen": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Regimen"
+          },
+          "nivel_minimo": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nivel Minimo"
+          },
+          "nivel_maximo": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nivel Maximo"
+          },
+          "etiquetas": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Etiquetas",
+            "default": []
+          },
+          "alumnos_matriculados": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Alumnos Matriculados"
+          }
+        },
+        "type": "object",
+        "required": [
+          "rbd",
+          "nombre",
+          "dependencia"
+        ],
+        "title": "EstablecimientoListItem"
+      },
+      "EstablecimientoListResponse": {
+        "properties": {
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/EstablecimientoListItem"
+            },
+            "type": "array",
+            "title": "Results"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "limit": {
+            "type": "integer",
+            "title": "Limit"
+          },
+          "offset": {
+            "type": "integer",
+            "title": "Offset"
+          }
+        },
+        "type": "object",
+        "required": [
+          "results",
+          "total",
+          "limit",
+          "offset"
+        ],
+        "title": "EstablecimientoListResponse"
+      },
+      "EstablecimientoOut": {
+        "properties": {
+          "rbd": {
+            "type": "integer",
+            "title": "Rbd"
+          },
+          "nombre": {
+            "type": "string",
+            "title": "Nombre"
+          },
+          "dependencia": {
+            "type": "string",
+            "title": "Dependencia"
+          },
+          "telefono": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Telefono"
+          },
+          "mail": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mail"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Url"
+          },
+          "habilitado_postular": {
+            "type": "boolean",
+            "title": "Habilitado Postular",
+            "default": true
+          },
+          "publicado": {
+            "type": "boolean",
+            "title": "Publicado",
+            "default": false
+          },
+          "nivel_minimo": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nivel Minimo"
+          },
+          "nivel_maximo": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nivel Maximo"
+          },
+          "director": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Director"
+          },
+          "etiquetas": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Etiquetas",
+            "default": []
+          },
+          "resumen_proyecto": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Resumen Proyecto"
+          },
+          "documento_proyecto": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Documento Proyecto"
+          },
+          "documento_reglamento": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Documento Reglamento"
+          },
+          "internado": {
+            "type": "boolean",
+            "title": "Internado",
+            "default": false
+          },
+          "integracion": {
+            "type": "boolean",
+            "title": "Integracion",
+            "default": false
+          },
+          "subvencion_preferencial": {
+            "type": "boolean",
+            "title": "Subvencion Preferencial",
+            "default": false
+          },
+          "peib": {
+            "type": "boolean",
+            "title": "Peib",
+            "default": false
+          },
+          "politica_uniforme": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Politica Uniforme"
+          },
+          "orientacion_religiosa": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Orientacion Religiosa"
+          },
+          "alumnos_matriculados": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Alumnos Matriculados"
+          },
+          "promedio_alumnos_por_curso": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Promedio Alumnos Por Curso"
+          },
+          "cantidad_docentes": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cantidad Docentes"
+          },
+          "regimen": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Regimen"
+          }
+        },
+        "type": "object",
+        "required": [
+          "rbd",
+          "nombre",
+          "dependencia"
+        ],
+        "title": "EstablecimientoOut"
+      },
+      "FichaOut": {
+        "properties": {
+          "establecimiento": {
+            "$ref": "#/components/schemas/EstablecimientoOut"
+          },
+          "sedes": {
+            "items": {
+              "$ref": "#/components/schemas/SedeOut"
+            },
+            "type": "array",
+            "title": "Sedes"
+          },
+          "cursos_resumen": {
+            "items": {
+              "$ref": "#/components/schemas/CursoResumenOut"
+            },
+            "type": "array",
+            "title": "Cursos Resumen"
+          },
+          "indicadores": {
+            "items": {
+              "$ref": "#/components/schemas/IndicadorOut"
+            },
+            "type": "array",
+            "title": "Indicadores"
+          },
+          "actividades": {
+            "items": {
+              "$ref": "#/components/schemas/ActividadOut"
+            },
+            "type": "array",
+            "title": "Actividades"
+          },
+          "imagenes": {
+            "items": {
+              "$ref": "#/components/schemas/ImagenOut"
+            },
+            "type": "array",
+            "title": "Imagenes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "establecimiento",
+          "sedes",
+          "cursos_resumen",
+          "indicadores",
+          "actividades",
+          "imagenes"
+        ],
+        "title": "FichaOut"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "dataset_version": {
+            "type": "string",
+            "title": "Dataset Version"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "dataset_version"
+        ],
+        "title": "HealthResponse"
+      },
+      "ImagenOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "rbd": {
+            "type": "integer",
+            "title": "Rbd"
+          },
+          "nombre": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nombre"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Url"
+          },
+          "principal": {
+            "type": "boolean",
+            "title": "Principal",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "rbd"
+        ],
+        "title": "ImagenOut"
+      },
+      "IndicadorOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "rbd": {
+            "type": "integer",
+            "title": "Rbd"
+          },
+          "tipo_indicador": {
+            "type": "string",
+            "title": "Tipo Indicador"
+          },
+          "nombre_indicador": {
+            "type": "string",
+            "title": "Nombre Indicador"
+          },
+          "titulo_indicador": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Titulo Indicador"
+          },
+          "nivel_indicador": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nivel Indicador"
+          },
+          "descripcion_indicador": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Descripcion Indicador"
+          },
+          "puntaje": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Puntaje"
+          },
+          "comparacion_gse_numero": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Comparacion Gse Numero"
+          },
+          "comparacion_gse_glosa": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Comparacion Gse Glosa"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "rbd",
+          "tipo_indicador",
+          "nombre_indicador"
+        ],
+        "title": "IndicadorOut"
+      },
+      "RegionOut": {
+        "properties": {
+          "codigo": {
+            "type": "integer",
+            "title": "Codigo"
+          },
+          "nombre": {
+            "type": "string",
+            "title": "Nombre"
+          }
+        },
+        "type": "object",
+        "required": [
+          "codigo",
+          "nombre"
+        ],
+        "title": "RegionOut"
+      },
+      "SearchResponse": {
+        "properties": {
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/EstablecimientoListItem"
+            },
+            "type": "array",
+            "title": "Results"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "limit": {
+            "type": "integer",
+            "title": "Limit"
+          },
+          "offset": {
+            "type": "integer",
+            "title": "Offset"
+          }
+        },
+        "type": "object",
+        "required": [
+          "results",
+          "total",
+          "limit",
+          "offset"
+        ],
+        "title": "SearchResponse"
+      },
+      "SedeOut": {
+        "properties": {
+          "rbd": {
+            "type": "integer",
+            "title": "Rbd"
+          },
+          "codigo_sede": {
+            "type": "integer",
+            "title": "Codigo Sede"
+          },
+          "codigo_region": {
+            "type": "integer",
+            "title": "Codigo Region"
+          },
+          "codigo_comuna": {
+            "type": "integer",
+            "title": "Codigo Comuna"
+          },
+          "region": {
+            "type": "string",
+            "title": "Region"
+          },
+          "comuna": {
+            "type": "string",
+            "title": "Comuna"
+          },
+          "calle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Calle"
+          },
+          "latitud": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latitud"
+          },
+          "longitud": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Longitud"
+          }
+        },
+        "type": "object",
+        "required": [
+          "rbd",
+          "codigo_sede",
+          "codigo_region",
+          "codigo_comuna",
+          "region",
+          "comuna"
+        ],
+        "title": "SedeOut"
+      },
+      "StatsResponse": {
+        "properties": {
+          "establecimientos": {
+            "type": "integer",
+            "title": "Establecimientos"
+          },
+          "sedes": {
+            "type": "integer",
+            "title": "Sedes"
+          },
+          "cursos": {
+            "type": "integer",
+            "title": "Cursos"
+          },
+          "comunas": {
+            "type": "integer",
+            "title": "Comunas"
+          },
+          "regiones": {
+            "type": "integer",
+            "title": "Regiones"
+          }
+        },
+        "type": "object",
+        "required": [
+          "establecimientos",
+          "sedes",
+          "cursos",
+          "comunas",
+          "regiones"
+        ],
+        "title": "StatsResponse"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
