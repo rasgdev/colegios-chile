@@ -230,6 +230,7 @@ class SearchQuery:
 
     q: str | None = None
     comuna: str | None = None
+    region: int | None = None
     dependencia: str | None = None
     regimen: str | None = None
     nivel: str | None = None
@@ -252,3 +253,4 @@ class CompareResult:
     establecimientos: list[Establecimiento]
     indicadores: dict[int, list[Indicador]]
     cursos_resumen: dict[int, list[CursoResumen]]
+    sedes: dict[int, list[Sede]]

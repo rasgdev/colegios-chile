@@ -270,6 +270,16 @@ class SqlSedeRepository:
         ).scalars().all()
         return [_to_sede(r) for r in rows]
 
+    async def by_rbds(self, rbds: list[int]) -> list[Sede]:
+        rows = (
+            await self.session.execute(
+                select(orm.Sede)
+                .where(orm.Sede.rbd.in_(rbds))
+                .order_by(orm.Sede.rbd, orm.Sede.codigo_sede)
+            )
+        ).scalars().all()
+        return [_to_sede(r) for r in rows]
+
 
 class SqlCursoRepository:
     def __init__(self, session: AsyncSession) -> None:

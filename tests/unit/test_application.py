@@ -68,6 +68,9 @@ class FakeSedeRepository:
     async def by_rbd(self, rbd: int):
         return []
 
+    async def by_rbds(self, rbds: list[int]):
+        return []
+
 
 class FakeActividadRepository:
     async def by_rbd(self, rbd: int):
@@ -128,6 +131,7 @@ async def test_compare_demasiados():
         FakeEstablecimientoRepository({i: _est(i) for i in range(20)}),
         FakeIndicadorRepository(),
         FakeCursoRepository(),
+        FakeSedeRepository(),
     )
     with pytest.raises(CompareTooManyError):
         await uc.execute(list(range(11)))
@@ -139,6 +143,7 @@ async def test_compare_rbd_inexistente():
         FakeEstablecimientoRepository({1: _est(1)}),
         FakeIndicadorRepository(),
         FakeCursoRepository(),
+        FakeSedeRepository(),
     )
     with pytest.raises(CompareMissingRbdError) as exc:
         await uc.execute([1, 999])
@@ -151,6 +156,7 @@ async def test_compare_ok():
         FakeEstablecimientoRepository({1: _est(1), 2: _est(2)}),
         FakeIndicadorRepository(),
         FakeCursoRepository(),
+        FakeSedeRepository(),
     )
     result = await uc.execute([1, 2])
     assert [e.rbd for e in result.establecimientos] == [1, 2]

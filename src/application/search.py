@@ -32,6 +32,7 @@ class SearchUseCase:
         return SearchQuery(
             q=query.q,
             comuna=query.comuna,
+            region=query.region,
             dependencia=dependencia,
             regimen=regimen,
             nivel=nivel,

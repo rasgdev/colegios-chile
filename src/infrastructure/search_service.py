@@ -107,13 +107,14 @@ class SearchService:
     def _build_where(self, query: SearchQuery) -> tuple[list[str], dict, bool]:
         where: list[str] = []
         params: dict = {}
-        has_q = bool(query.q and query.q.strip())
+        q = query.q.strip() if query.q else ""
+        has_q = bool(q)
 
         if has_q:
             where.append(
                 "busqueda_tsvector @@ websearch_to_tsquery('spanish_unaccent', :q)"
             )
-            params["q"] = query.q.strip()
+            params["q"] = q
 
         if query.dependencia:
             where.append("dependencia = :dependencia")
@@ -140,6 +141,13 @@ class SearchService:
                 "WHERE s.rbd = establecimientos.rbd AND s.comuna ILIKE :comuna)"
             )
             params["comuna"] = f"%{query.comuna}%"
+
+        if query.region is not None:
+            where.append(
+                "EXISTS (SELECT 1 FROM sedes s "
+                "WHERE s.rbd = establecimientos.rbd AND s.codigo_region = :region)"
+            )
+            params["region"] = query.region
 
         if query.nivel:
             cat_min, cat_max = rango_indices_categoria(query.nivel)

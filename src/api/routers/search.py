@@ -19,6 +19,7 @@ async def search(
     request: Request,
     q: str | None = None,
     comuna: str | None = None,
+    region: int | None = Query(default=None, ge=1),
     dependencia: str | None = None,
     regimen: str | None = None,
     nivel: str | None = None,
@@ -32,6 +33,7 @@ async def search(
         SearchQuery(
             q=q,
             comuna=comuna,
+            region=region,
             dependencia=dependencia,
             regimen=regimen,
             nivel=nivel,

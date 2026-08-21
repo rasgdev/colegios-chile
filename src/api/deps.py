@@ -75,4 +75,5 @@ def get_compare_use_case(session: AsyncSession = Depends(get_session)) -> Compar
         SqlEstablecimientoRepository(session),
         SqlIndicadorRepository(session),
         SqlCursoRepository(session),
+        SqlSedeRepository(session),
     )
