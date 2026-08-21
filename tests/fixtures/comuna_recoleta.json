@@ -1,0 +1,1895 @@
+[
+    {
+        "rbd": 8650,
+        "nombre": "COLEGIO SAN BENILDO",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "I Medio",
+        "nivelMaximo": "IV Medio",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "_4MEDIO",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 350,
+            "promedioAlumnosPorCurso": 43,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "AVENIDA MEXICO 956",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.65271,
+                            -33.40665
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 8494,
+        "nombre": "LICEO A-1 VALENTIN LETELIER",
+        "dependencia": "PUBLICO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "1\u00ba B\u00e1sico",
+        "nivelMaximo": "IV Medio",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "_4MEDIO",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 1010,
+            "promedioAlumnosPorCurso": 31,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "BUENOS AIRES 575",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.64545,
+                            -33.42674
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 10396,
+        "nombre": "LICEO POLIVALENTE RAFAEL DONOSO CARRASCO",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "I Medio",
+        "nivelMaximo": "IV Medio",
+        "etiquetas": [
+            "_4MEDIO",
+            "TECNICO_PROFESIONAL",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 640,
+            "promedioAlumnosPorCurso": 40,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "MU\u00d1OZ GAMERO 972",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.65111,
+                            -33.4002
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 10384,
+        "nombre": "ESCUELA BASICA PART.BRIGIDA WALKER",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "1\u00ba B\u00e1sico",
+        "nivelMaximo": "4\u00ba B\u00e1sico",
+        "etiquetas": [
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 0,
+            "promedioAlumnosPorCurso": null,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "JUAN CRISTOBAL 4327",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.64922,
+                            -33.38167
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "principalnueva.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 10254,
+        "nombre": "CENTRO EDUCACIONAL JOSE MIGUEL CARRERA",
+        "dependencia": "PUBLICO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "I Medio",
+        "nivelMaximo": "IV Medio",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "_4MEDIO",
+            "TECNICO_PROFESIONAL",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 303,
+            "promedioAlumnosPorCurso": 23,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "AVENIDA EL GUANACO 4185",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.65714,
+                            -33.38347
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "Ingreso.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 10333,
+        "nombre": "ESCUELA PARTICULAR N.SRA.DE GUADALUPE",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Pre-Kinder",
+        "nivelMaximo": "8\u00ba B\u00e1sico",
+        "etiquetas": [
+            "PIE",
+            "SEP"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 659,
+            "promedioAlumnosPorCurso": 32,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "AVENIDA  DORSAL 325",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.63641,
+                            -33.39838
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "COLEGIO.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 10252,
+        "nombre": "LICEO ARTURO PEREZ CANTO",
+        "dependencia": "PUBLICO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Pre-Kinder",
+        "nivelMaximo": "IV Medio",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "_4MEDIO",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 602,
+            "promedioAlumnosPorCurso": 30,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "REINA DE CHILE 0174",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.62934,
+                            -33.40144
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "Foto+Frontis.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 10331,
+        "nombre": "COLEGIO ISABEL RIQUELME",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Kinder",
+        "nivelMaximo": "8\u00ba B\u00e1sico",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 169,
+            "promedioAlumnosPorCurso": 18,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "VICTOR CUCCUINI /LIRCAY 0132/0135",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.63138,
+                            -33.40382
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "8.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 10397,
+        "nombre": "LICEO INDUSTRIAL DE RECOLETA",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "I Medio",
+        "nivelMaximo": "IV Medio",
+        "etiquetas": [
+            "_4MEDIO",
+            "TECNICO_PROFESIONAL",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 400,
+            "promedioAlumnosPorCurso": 23,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "AVENIDA RECOLETA 2776",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.6436,
+                            -33.40149
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "EstudiantesIndustrial.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 24423,
+        "nombre": "COLEGIO SAN JUAN DIEGO",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Pre-Kinder",
+        "nivelMaximo": "IV Medio",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "_4MEDIO",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 1059,
+            "promedioAlumnosPorCurso": 37,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "AV.AMERICO VESPUCIO NORTE 670",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.64287,
+                            -33.38217
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "fachadas.jpeg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 11965,
+        "nombre": "CENTRO EDUCACIONAL SAN LORENZO",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Pre-Kinder",
+        "nivelMaximo": "IV Medio",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "_4MEDIO",
+            "TECNICO_PROFESIONAL",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 1048,
+            "promedioAlumnosPorCurso": 37,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "MONTANA 3722",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.65537,
+                            -33.39055
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "Entrada.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 8714,
+        "nombre": "ESCUELA PARTICULAR RAMON FREIRE",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Pre-Kinder",
+        "nivelMaximo": "8\u00ba B\u00e1sico",
+        "etiquetas": [
+            "SEP",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 347,
+            "promedioAlumnosPorCurso": 34,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "AVENIDA MEXICO 260",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.63634,
+                            -33.40802
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "Portada+2024.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 8632,
+        "nombre": "LICEO POLIVALENTE SANTA JULIANA",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Pre-Kinder",
+        "nivelMaximo": "IV Medio",
+        "etiquetas": [
+            "SEP",
+            "_4MEDIO",
+            "TECNICO_PROFESIONAL",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 1494,
+            "promedioAlumnosPorCurso": 36,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "AVENIDA MEXICO 755",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.64874,
+                            -33.40708
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "portada+colegio.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 10320,
+        "nombre": "LICEO AVENIDA RECOLETA",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Pre-Kinder",
+        "nivelMaximo": "IV Medio",
+        "etiquetas": [
+            "SEP",
+            "_4MEDIO",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 1328,
+            "promedioAlumnosPorCurso": 37,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "AVENIDA RECOLETA 3848",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.64246,
+                            -33.39072
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "portada.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 10262,
+        "nombre": "ESCUELA ESPANA",
+        "dependencia": "PUBLICO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Pre-Kinder",
+        "nivelMaximo": "8\u00ba B\u00e1sico",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 336,
+            "promedioAlumnosPorCurso": 28,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "LAS MAGNOLIAS 535",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.64102,
+                            -33.39607
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "Portada.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 10302,
+        "nombre": "ESCUELA ANNE ELEONOR ROOSEVELT",
+        "dependencia": "PUBLICO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Pre-Kinder",
+        "nivelMaximo": "8\u00ba B\u00e1sico",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 152,
+            "promedioAlumnosPorCurso": 15,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "LINCOLN 0815",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.6264,
+                            -33.4125
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "Fachada+AER.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 10306,
+        "nombre": "ESCUELA MUN.HERMANA MARIA GORETTI",
+        "dependencia": "PUBLICO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Kinder",
+        "nivelMaximo": "8\u00ba B\u00e1sico",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 169,
+            "promedioAlumnosPorCurso": 18,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "HEROE MANUEL JESUS SILVA 381",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.63849,
+                            -33.38943
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "WhatsApp+Image+2025-05-15+at+08.42.27.jpeg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 8636,
+        "nombre": "LICEO LEONARDO MURIALDO",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "1\u00ba B\u00e1sico",
+        "nivelMaximo": "IV Medio",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "_4MEDIO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 1610,
+            "promedioAlumnosPorCurso": 44,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "SANTA FILOMENA 159",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.64041,
+                            -33.43022
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "Imagen3.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 20440,
+        "nombre": "LICEO DOCTOR JUAN VERDAGUER PLANAS",
+        "dependencia": "PUBLICO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "1\u00ba B\u00e1sico",
+        "nivelMaximo": "IV Medio",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "_4MEDIO",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 419,
+            "promedioAlumnosPorCurso": 34,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "PURISIMA 260",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.63837,
+                            -33.43105
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "Vista+del+Liceo_opt.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 8706,
+        "nombre": "ESCUELA SAN BENILDO",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "1\u00ba B\u00e1sico",
+        "nivelMaximo": "8\u00ba B\u00e1sico",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 218,
+            "promedioAlumnosPorCurso": 27,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "AV. MEXICO 956",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.65276,
+                            -33.40644
+                        ]
+                    }
+                }
+            },
+            {
+                "codigoSede": 2,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "EL ROBLE 990",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.65223,
+                            -33.40303
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 10248,
+        "nombre": "LICEO INSTITUTO TECNOLOGICO Y COMERCIAL RECOLETA-INTECO",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "I Medio",
+        "nivelMaximo": "IV Medio",
+        "etiquetas": [
+            "_4MEDIO",
+            "TECNICO_PROFESIONAL",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 753,
+            "promedioAlumnosPorCurso": 37,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "AVENIDA EL SALTO 1565",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.63802,
+                            -33.41286
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "6.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 8546,
+        "nombre": "ESC.BAS.BILINGUE REPUBLICA DEL PARAGUAY",
+        "dependencia": "PUBLICO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Pre-Kinder",
+        "nivelMaximo": "8\u00ba B\u00e1sico",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 1230,
+            "promedioAlumnosPorCurso": 41,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "AVDA. RECOLETA 480",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.6467,
+                            -33.42701
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 8800,
+        "nombre": "ESCUELA PART MARY AND GEORGE S SCHOOL",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Pre-Kinder",
+        "nivelMaximo": "8\u00ba B\u00e1sico",
+        "etiquetas": [
+            "SEP",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 290,
+            "promedioAlumnosPorCurso": 29,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "UNION 347",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.63982,
+                            -33.41703
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 10257,
+        "nombre": "ESCUELA SARGENTO 2. DANIEL REBOLLEDO",
+        "dependencia": "PUBLICO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Pre-Kinder",
+        "nivelMaximo": "8\u00ba B\u00e1sico",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 427,
+            "promedioAlumnosPorCurso": 21,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "FRANCISCO CERDA 1019",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.65082,
+                            -33.39257
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "IMG_9344.JPG"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 10307,
+        "nombre": "ESCUELA RAFAEL VALDIVIESO",
+        "dependencia": "PUBLICO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Pre-Kinder",
+        "nivelMaximo": "8\u00ba B\u00e1sico",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 588,
+            "promedioAlumnosPorCurso": 32,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "AVENIDA ARZOBISPO VALDIVIESO 0250",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.629157114,
+                            -33.4098441
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "1.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 8510,
+        "nombre": "LICEO PAULA JARAQUEMADA",
+        "dependencia": "PUBLICO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "I Medio",
+        "nivelMaximo": "IV Medio",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "_4MEDIO",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 334,
+            "promedioAlumnosPorCurso": 27,
+            "regimen": "Mujeres"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "JUAREZ LARGA 616",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.64693,
+                            -33.42596
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "Imagen22.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 10267,
+        "nombre": "ESCUELA ESCRITORA MARCELA PAZ",
+        "dependencia": "PUBLICO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Pre-Kinder",
+        "nivelMaximo": "8\u00ba B\u00e1sico",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 229,
+            "promedioAlumnosPorCurso": 22,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "DIEGO SILVA 1107",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.65194,
+                            -33.38433
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "sala+de+clases.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 10268,
+        "nombre": "ESCUELA PUERTO RICO",
+        "dependencia": "PUBLICO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Pre-Kinder",
+        "nivelMaximo": "8\u00ba B\u00e1sico",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 370,
+            "promedioAlumnosPorCurso": 37,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "DORSAL 498",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.63978,
+                            -33.39813
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "ESCUELA+PUERTO+RICO+EXCELENCIA+ACAD\u00c9MICA+2026-2027-.jpeg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 10300,
+        "nombre": "ESCUELA MARTA COLVIN",
+        "dependencia": "PUBLICO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Kinder",
+        "nivelMaximo": "8\u00ba B\u00e1sico",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 192,
+            "promedioAlumnosPorCurso": 21,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "AVDA.EISNTEIN 0655",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.62421,
+                            -33.40627
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "Insignia+Escuela+Marta+Colvin.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 8813,
+        "nombre": "LICEO BICENTENARIO T\u00c9CNICO PROFESIONAL IGNACIO DOMEYKO",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "I Medio",
+        "nivelMaximo": "IV Medio",
+        "etiquetas": [
+            "_4MEDIO",
+            "TECNICO_PROFESIONAL",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 810,
+            "promedioAlumnosPorCurso": 32,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "JUAREZ LARGA 760",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.64835,
+                            -33.42558
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "dome1.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 10364,
+        "nombre": "ESCUELA B\u00c1SICA N\u00ba 953 JOSE ARTIGA",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Pre-Kinder",
+        "nivelMaximo": "8\u00ba B\u00e1sico",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 714,
+            "promedioAlumnosPorCurso": 37,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "AVENIDA REOLETA 3990",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.64248,
+                            -33.38883
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 10255,
+        "nombre": "COMPLEJO EDUCACIONAL JUANITA FERNANDEZ SOLAR",
+        "dependencia": "PUBLICO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "I Medio",
+        "nivelMaximo": "IV Medio",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "_4MEDIO",
+            "TECNICO_PROFESIONAL",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 678,
+            "promedioAlumnosPorCurso": 30,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "CALLE INOCENCIA 2675",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.641557,
+                            -33.403062
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "fotos+portada.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 8699,
+        "nombre": "ESCUELA PARTICULAR EL PEQUENO ESTUDIANTE",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "1\u00ba B\u00e1sico",
+        "nivelMaximo": "6\u00ba B\u00e1sico",
+        "etiquetas": [
+            "SEP",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 363,
+            "promedioAlumnosPorCurso": 30,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "AV. EINSTEIN 113",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.63396,
+                            -33.40611
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 11761,
+        "nombre": "ESCUELA PARTICULAR SAN FELIPE NERI",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Pre-Kinder",
+        "nivelMaximo": "8\u00ba B\u00e1sico",
+        "etiquetas": [
+            "SEP",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 233,
+            "promedioAlumnosPorCurso": 23,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "PASAJE LAS GALAXIAS 1250",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.64176,
+                            -33.41735
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 8682,
+        "nombre": "COLEGIO RAFAEL SANHUEZA LIZARDI",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Pre-Kinder",
+        "nivelMaximo": "IV Medio",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "_4MEDIO",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 1238,
+            "promedioAlumnosPorCurso": 44,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "EUSEBIO LILLO 479",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.64462,
+                            -33.42858
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "FACHADA+RSL.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 25138,
+        "nombre": "COLEGIO ALBERT EINSTEIN",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "1\u00ba B\u00e1sico",
+        "nivelMaximo": "IV Medio",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "_4MEDIO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 407,
+            "promedioAlumnosPorCurso": 33,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "SAN GERARDO 689",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.64624,
+                            -33.40633
+                        ]
+                    }
+                }
+            },
+            {
+                "codigoSede": 2,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "EL ROBLE 1172",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.65726187,
+                            -33.4019733
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "PORTADA.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 8614,
+        "nombre": "COLEGIO MARIA TERESA CANCINO AGUILAR",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Pre-Kinder",
+        "nivelMaximo": "IV Medio",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "_4MEDIO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 1020,
+            "promedioAlumnosPorCurso": 39,
+            "regimen": "Mujeres"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "AVENIDA EL SALTO.. 1652",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.63804,
+                            -33.41237
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "fotodeportada.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 10345,
+        "nombre": "ESCUELA PARTICULAR FRANCISCO BILBAO",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Pre-Kinder",
+        "nivelMaximo": "8\u00ba B\u00e1sico",
+        "etiquetas": [
+            "SEP",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 734,
+            "promedioAlumnosPorCurso": 27,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "AVENIDA MEXICO 101",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.63498,
+                            -33.40783
+                        ]
+                    }
+                }
+            },
+            {
+                "codigoSede": 2,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "JULIO CORDERO 2515",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.62953,
+                            -33.40419
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "Frontis+Anexo.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 8502,
+        "nombre": "LICEO COMERCIAL LUIS CORREA PRIETO",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "I Medio",
+        "nivelMaximo": "IV Medio",
+        "etiquetas": [
+            "_4MEDIO",
+            "TECNICO_PROFESIONAL",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 626,
+            "promedioAlumnosPorCurso": 34,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "SANTOS DUMONT 505",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.64348975328345,
+                            -33.42214023564908
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "IMG_8780-Editar.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 10338,
+        "nombre": "ESCUELA BASICA SANTO DOMINGO",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Pre-Kinder",
+        "nivelMaximo": "8\u00ba B\u00e1sico",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 494,
+            "promedioAlumnosPorCurso": 29,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "AVDA. DIAGONAL JOSE MARIA CARO 3444",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.65271,
+                            -33.39605
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 10313,
+        "nombre": "COLEGIO POLIV. ALEJANDRO FLORES",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Pre-Kinder",
+        "nivelMaximo": "IV Medio",
+        "etiquetas": [
+            "SEP",
+            "_4MEDIO",
+            "TECNICO_PROFESIONAL",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 1024,
+            "promedioAlumnosPorCurso": 36,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "AV. EINSTEIN 636-685",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.64571,
+                            -33.40511
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "dia_conv_escolar_005-1170x400.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 10291,
+        "nombre": "ESCUELA VICTOR CUCCUINI",
+        "dependencia": "PUBLICO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Pre-Kinder",
+        "nivelMaximo": "8\u00ba B\u00e1sico",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 268,
+            "promedioAlumnosPorCurso": 26,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "HERMANA KAROLINE MAYER 37",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.63553,
+                            -33.40274
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "thumbnail_Saludo.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 10363,
+        "nombre": "ESCUELA PARTICULAR JAIME EYZAGUIRRE",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Kinder",
+        "nivelMaximo": "8\u00ba B\u00e1sico",
+        "etiquetas": [
+            "SEP",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 179,
+            "promedioAlumnosPorCurso": 19,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "MUNOZ GAMERO 145",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.63257,
+                            -33.40146
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [
+            {
+                "nombre": "escuela.jpg"
+            }
+        ],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 10270,
+        "nombre": "CENTRO EDUC.ESCRITORES DE CHILE",
+        "dependencia": "PUBLICO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Pre-Kinder",
+        "nivelMaximo": "8\u00ba B\u00e1sico",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 335,
+            "promedioAlumnosPorCurso": 23,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "ARCO IRIS 4045",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.64526,
+                            -33.38516
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    },
+    {
+        "rbd": 10326,
+        "nombre": "ESCUELA PARTICULAR SAN JOSE",
+        "dependencia": "PARTICULAR SUBVENCIONADO",
+        "habilitadoPostular": true,
+        "nivelMinimo": "Kinder",
+        "nivelMaximo": "8\u00ba B\u00e1sico",
+        "etiquetas": [
+            "PIE",
+            "SEP",
+            "GRATUITO"
+        ],
+        "informacionInstitucional": {
+            "alumnosMatriculados": 592,
+            "promedioAlumnosPorCurso": 34,
+            "regimen": "Mixto"
+        },
+        "sedes": [
+            {
+                "codigoSede": 1,
+                "direccion": {
+                    "region": "Metropolitana De Santiago",
+                    "comuna": "Recoleta",
+                    "calle": "EL ROBLE 661",
+                    "coordenadas": {
+                        "type": "Point",
+                        "coordinates": [
+                            -70.64509,
+                            -33.40418
+                        ]
+                    }
+                }
+            }
+        ],
+        "imagenes": [],
+        "distancia": 0.0,
+        "procesosEspeciales": []
+    }
+]
