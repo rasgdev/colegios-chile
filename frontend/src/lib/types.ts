@@ -404,6 +404,10 @@ export interface components {
             etiquetas: string[];
             /** Alumnos Matriculados */
             alumnos_matriculados?: number | null;
+            /** Comuna */
+            comuna?: string | null;
+            /** Region */
+            region?: string | null;
         };
         /** EstablecimientoListResponse */
         EstablecimientoListResponse: {

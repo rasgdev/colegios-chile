@@ -1,93 +1,30 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import AboutHero from "../components/about/AboutHero.astro";
+import DataSources from "../components/about/DataSources.astro";
+import DataGuide from "../components/about/DataGuide.astro";
+import Disclaimer from "../components/about/Disclaimer.astro";
+import TableOfContents from "../components/about/TableOfContents.astro";
 
 export const prerender = true;
 ---
 
 <BaseLayout
   title="Acerca — Colegios de Chile"
-  description="Información sobre el proyecto y el origen de los datos del buscador de colegios."
+  description="Información sobre el proyecto, el origen de los datos y cómo interpretar los indicadores del buscador de colegios."
 >
-  <article class="mx-auto max-w-3xl space-y-6">
-    <h1 class="text-3xl font-bold text-slate-900">Acerca del proyecto</h1>
+  <div class="mx-auto flex w-full max-w-6xl gap-12">
+    <!-- Main content -->
+    <article class="min-w-0 flex-1 space-y-10">
+      <AboutHero />
+      <DataSources />
+      <DataGuide />
+      <Disclaimer />
+    </article>
 
-    <p class="text-slate-700">
-      Colegios de Chile es un buscador público de establecimientos educacionales,
-      construido sobre los datos abiertos del{" "}
-      <a href="https://apisae.mineduc.cl" class="text-brand-600 hover:underline">
-        Sistema de Admisión Escolar (SAE)
-      </a>{" "}
-      del Ministerio de Educación (MINEDUC).
-    </p>
-
-    <section>
-      <h2 class="mb-2 text-xl font-semibold text-slate-900">¿Qué datos incluye?</h2>
-      <ul class="list-disc space-y-1 pl-5 text-slate-700">
-        <li>Información de cada colegio: dependencia, régimen, niveles y matrícula.</li>
-        <li>Sedes, comunas y regiones.</li>
-        <li>Cursos con copago, vacantes y cupos.</li>
-        <li>Indicadores (SIMCE y desempeño) y actividades extraprogramáticas.</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2 class="mb-2 text-xl font-semibold text-slate-900">Arquitectura</h2>
-      <p class="text-slate-700">
-        El proyecto usa un pipeline ETL (extracción, transformación y carga) desde la
-        API pública del MINEDUC hacia archivos Parquet, una base de datos PostgreSQL
-        con búsqueda full-text, una API REST en FastAPI y este frontend en Astro.
-      </p>
-    </section>
-
-    <section id="indicadores">
-      <h2 class="mb-2 text-xl font-semibold text-slate-900">Cómo entender los datos</h2>
-
-      <h3 class="mt-4 font-semibold text-slate-900">Puntajes y comparación (GSE)</h3>
-      <p class="mt-1 text-slate-700">
-        El puntaje (SIMCE y desarrollo personal) es comparable entre colegios. Además, cada
-        resultado se compara con colegios de su <strong>mismo grupo socioeconómico (GSE)</strong>,
-        clasificación del MINEDUC según el nivel educativo e ingreso de las familias y el índice
-        de vulnerabilidad (IVE) de JUNAEB.
-      </p>
-      <ul class="mt-2 list-disc space-y-1 pl-5 text-slate-700">
-        <li><span class="font-medium text-green-700">Mejor que colegios similares</span>: supera el promedio de su grupo.</li>
-        <li><span class="font-medium text-slate-600">En la media de colegios similares</span>: igual al promedio de su grupo.</li>
-        <li><span class="font-medium text-red-700">Más bajo que colegios similares</span>: bajo el promedio de su grupo.</li>
-      </ul>
-      <p class="mt-2 text-slate-600">
-        El color compara cada colegio con su propio grupo socioeconómico, <strong>no</strong> con
-        los otros colegios de una comparación. Un colegio vulnerable puede tener "mejor que
-        similares" con un puntaje menor al de un colegio de élite con "más bajo que similares".
-      </p>
-
-      <h3 class="mt-4 font-semibold text-slate-900">Indicadores de desarrollo personal</h3>
-      <p class="mt-1 text-slate-700">
-        Índices de 0 a 100 basados en cuestionarios (percepciones autodeclaradas) de estudiantes,
-        docentes y apoderados:
-      </p>
-      <ul class="mt-2 list-disc space-y-1 pl-5 text-slate-700">
-        <li><strong>Autoestima académica y motivación escolar</strong>: cómo el estudiante valora su capacidad de aprender y su disposición al logro académico.</li>
-        <li><strong>Clima de convivencia escolar</strong>: percepción de un ambiente de respeto, organizado y seguro.</li>
-        <li><strong>Participación y formación ciudadana</strong>: actitud hacia el colegio y cuánto se fomenta la participación y la vida democrática.</li>
-        <li><strong>Hábitos de vida saludable</strong>: conductas de autocuidado y cuánto el colegio promueve hábitos sanos.</li>
-      </ul>
-      <p class="mt-2 text-slate-600">
-        "Enseñanza Básica" y "Enseñanza Media" indican el nivel educativo evaluado, no un promedio.
-      </p>
-
-      <h3 class="mt-4 font-semibold text-slate-900">Copago</h3>
-      <p class="mt-1 text-slate-700">
-        Aporte mensual de las familias (financiamiento compartido), informado por el establecimiento.
-        Los colegios públicos y subvencionados gratuitos no cobran.
-      </p>
-    </section>
-
-    <section>
-      <h2 class="mb-2 text-xl font-semibold text-slate-900">Descargo</h2>
-      <p class="text-slate-700">
-        Este es un proyecto de portafolio sin afiliación oficial con el MINEDUC. Los
-        datos representan una instantánea y pueden no reflejar el estado más reciente.
-      </p>
-    </section>
-  </article>
+    <!-- Sidebar TOC (desktop only) -->
+    <aside class="w-56 shrink-0">
+      <TableOfContents />
+    </aside>
+  </div>
 </BaseLayout>

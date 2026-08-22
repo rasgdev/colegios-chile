@@ -1,0 +1,32 @@
+---
+interface TocItem {
+  id: string;
+  label: string;
+}
+
+const items: TocItem[] = [
+  { id: "datos", label: "¿Qué datos incluye?" },
+  { id: "indicadores", label: "Cómo entender los datos" },
+  { id: "descargo", label: "Descargo" },
+];
+---
+
+<nav aria-label="Contenido de la página" class="hidden lg:block">
+  <div class="sticky top-8">
+    <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">En esta página</p>
+    <ul class="mt-3 space-y-1 border-l border-slate-200">
+      {
+        items.map((item) => (
+          <li>
+            <a
+              href={`#${item.id}`}
+              class="block border-l-2 border-transparent py-1 pl-4 text-sm text-slate-600 transition hover:border-brand-300 hover:text-brand-600"
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</nav>
