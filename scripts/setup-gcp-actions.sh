@@ -30,19 +30,33 @@ echo ""
 
 # ── Pre-checks ─────────────────────────────────────────────
 command -v gcloud >/dev/null || die "gcloud no instalado. Instala el CLI de Google Cloud."
-command -v gsutil >/dev/null || die "gsutil no instalado."
 
 ACC=$(gcloud auth list --filter=status:ACTIVE --format="value(account)" 2>/dev/null | head -1)
 [ -n "${ACC}" ] || die "No hay sesión activa de gcloud. Ejecuta: gcloud auth login"
 log "Sesión activa: ${ACC}"
 echo ""
 
+# ── 0. Habilitar APIs necesarias (idempotente) ─────────────
+echo "=== Habilitando APIs ==="
+gcloud services enable \
+  compute.googleapis.com \
+  serviceusage.googleapis.com \
+  cloudresourcemanager.googleapis.com \
+  iam.googleapis.com \
+  storage.googleapis.com \
+  oslogin.googleapis.com \
+  iap.googleapis.com \
+  --project="${PROJECT}"
+log "APIs habilitadas"
+echo ""
+
 # ── 1. Bucket de estado (bootstrap, fuera del config principal) ──
-if gsutil ls "gs://${BUCKET}" >/dev/null 2>&1; then
+if gcloud storage buckets describe "gs://${BUCKET}" >/dev/null 2>&1; then
   warn "Bucket ${BUCKET} ya existe; omito."
 else
-  gsutil mb -p "${PROJECT}" "gs://${BUCKET}"
-  gsutil versioning set on "gs://${BUCKET}"
+  gcloud storage buckets create "gs://${BUCKET}" \
+    --project="${PROJECT}" --location="${REGION}"
+  gcloud storage buckets update "gs://${BUCKET}" --versioning
   log "Bucket creado con versioning: gs://${BUCKET}"
 fi
 
@@ -59,7 +73,7 @@ fi
 # Roles para terraform (add-iam-policy-binding es idempotente).
 for role in \
   roles/compute.admin \
-  roles/serviceusage.admin \
+  roles/serviceusage.serviceUsageAdmin \
   roles/resourcemanager.projectIamAdmin \
   roles/storage.objectAdmin; do
   gcloud projects add-iam-policy-binding "${PROJECT}" \

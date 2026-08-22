@@ -8,10 +8,16 @@ PostgreSQL + FastAPI + Astro SSR. Deploy desde GitHub Actions vía **IAP tunnel 
 
 | Recurso | Costo |
 |---|---|
-| VM e2-micro + disco 30 GB (us-central1) | Free tier |
-| Bucket GCS de estado (< 5 GB) | Free tier |
-| WIF + Service Account + IAP | Gratis |
+| VM e2-micro + disco 20 GB estándar (us-central1) | Free tier |
+| Bucket GCS de estado (regional `us-central1`, < 5 GB) | Free tier |
+| IP estática adjunta a la VM en ejecución | Gratis |
+| Firewalls, IAP API, IAM, WIF, Service Account, OS Login | Gratis |
 | GitHub Actions (repo público) | Gratis / ilimitado |
+
+**Únicos costos posibles (evitables):**
+1. **IP estática**: gratis solo mientras la VM está **en ejecución**. Si detienes la VM, esa IP pasa a facturarse (~$3.6/mes). No la detengas (o libérala con `terraform destroy`).
+2. **Egress de red**: el free tier incluye ~1 GB/mes de salida (Norteamérica). Tráfico público del sitio más allá de eso se cobra. Para un demo es imperceptible.
+3. **Bucket**: si se creara sin `--location` queda multi-región (más caro por GB). El script usa `us-central1` regional.
 
 ## Orden de ejecución (hacerlo una vez)
 
@@ -39,8 +45,8 @@ gh repo create rasgdev/colegios-chile --public --source=. --push
 
 ```bash
 PROJECT=my-project-colegios-chile
-gsutil mb -p "$PROJECT" gs://colegios-chile-tfstate
-gsutil versioning set on gs://colegios-chile-tfstate
+gcloud storage buckets create gs://colegios-chile-tfstate --project="$PROJECT" --location=us-central1
+gcloud storage buckets update gs://colegios-chile-tfstate --versioning
 ```
 
 ## 3. Service Account (identidad de GitHub Actions)
@@ -58,7 +64,7 @@ gcloud projects add-iam-policy-binding "$PROJECT" \
   --role=roles/compute.admin
 gcloud projects add-iam-policy-binding "$PROJECT" \
   --member="serviceAccount:$SA" \
-  --role=roles/serviceusage.admin
+  --role=roles/serviceusage.serviceUsageAdmin
 gcloud projects add-iam-policy-binding "$PROJECT" \
   --member="serviceAccount:$SA" \
   --role=roles/resourcemanager.projectIamAdmin
