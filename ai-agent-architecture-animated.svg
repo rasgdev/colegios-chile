@@ -1,0 +1,86 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 1200' width='100%' height='auto'>
+<defs>
+<marker id='a' markerWidth='10' markerHeight='7' refX='9' refY='3.5' orient='auto'>
+<polygon points='0 0, 10 3.5, 0 7' fill='#333'/></marker>
+<filter id='shadow' x='-20%' y='-20%' width='140%' height='140%'><feDropShadow dx='1' dy='2' stdDeviation='2' flood-color='#000' flood-opacity='0.1'/></filter>
+</defs>
+<style>
+.title{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:24px;font-weight:700;text-anchor:middle}
+.subtitle{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:12px;text-anchor:middle;fill:#555}
+.bt{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;font-weight:700;text-anchor:middle;fill:#1a1a1a}
+.bd{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:10px;text-anchor:middle;fill:#444}
+.tt{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:10px;text-anchor:middle;fill:#333}
+.dt{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:9px;font-weight:600;text-anchor:middle;fill:#333}
+.lab{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:11px;text-anchor:middle;fill:#333}
+.gr{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:10px;text-anchor:start;fill:#fff}
+.sl{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:12px;font-weight:700;fill:#fff;text-anchor:middle}
+.fl{fill:none;stroke:#555;stroke-width:2;marker-end:url(#a)}
+</style>
+<rect width='1000' height='1200' fill='#fafbfc'/>
+<text x='500' y='40' class='title'>One Architecture Diagram That Explains Every AI Agent</text>
+<text x='500' y='62' class='subtitle'>Universal anatomy — Perceive → Think → Plan → Act → Observe</text>
+<rect x='25' y='100' width='34' height='1010' rx='8' fill='#c0392b'/>
+<text x='42' y='350' class='sl' transform='rotate(-90 42 350)'>Guardrails &amp; Safety</text>
+<text x='36' y='150' class='gr'>Permissions</text>
+<text x='36' y='168' class='gr'>Approval gates</text>
+<text x='36' y='186' class='gr'>Content filtering</text>
+<text x='36' y='204' class='gr'>Rate limits</text>
+<text x='36' y='222' class='gr'>Human-in-the-loop</text>
+<text x='500' y='95' class='lab' font-weight='700' font-size='13'>Input</text>
+<circle cx='440' cy='115' r='13' fill='#fff' stroke='#333' stroke-width='1.5'/>
+<text x='440' y='120' class='lab' font-size='11'>👤</text>
+<rect x='475' y='105' width='105' height='20' rx='5' fill='#fff' stroke='#333'/>
+<text x='527' y='119' class='lab' font-size='9'>User text, API calls...</text>
+<rect x='375' y='145' width='250' height='70' rx='12' fill='#e8e8e8' stroke='#7f8c8d' stroke-width='2' filter='url(#shadow)'/><text x='500.0' y='169' class='bt'>👁 Perception Layer</text><text x='500.0' y='189' class='bd'>Perceive</text>
+<rect x='365' y='260' width='270' height='95' rx='12' fill='#d6e8ff' stroke='#4a90e2' stroke-width='2' filter='url(#shadow)'/><text x='500.0' y='284' class='bt'>🧠 Reasoning Engine / LLM</text><text x='500.0' y='304' class='bd'>Chain-of-Thought / ReAct</text>
+<rect x='750' y='195' width='215' height='170' rx='12' fill='#fff2d6' stroke='#f39c12' stroke-width='2' filter='url(#shadow)'/><text x='857.5' y='219' class='bt'>🗄 Memory System</text>
+<rect x='765' y='235' width='185' height='50' rx='6' fill='#fff' stroke='#f39c12'/>
+<text x='857' y='255' class='bd'>Short-term: context</text>
+<text x='857' y='272' class='bd'>working state</text>
+<rect x='765' y='295' width='185' height='55' rx='6' fill='#fff' stroke='#f39c12'/>
+<text x='857' y='315' class='bd'>Long-term: vector store</text>
+<text x='857' y='332' class='bd'>episodic memory</text>
+<polygon points='500,385 555,440 500,495 445,440' fill='#fff9e6' stroke='#e67e22' stroke-width='2'/><text x='500' y='437' class='dt'>Can I answer</text><text x='500' y='450' class='dt'>directly?</text>
+<rect x='125' y='570' width='230' height='100' rx='12' fill='#e8d6ff' stroke='#9b59b6' stroke-width='2' filter='url(#shadow)'/><text x='240.0' y='594' class='bt'>📝 Planning Module</text><text x='240.0' y='614' class='bd'>Breaks goal into sub-tasks</text>
+<rect x='150' y='630' width='50' height='22' rx='5' fill='#fff' stroke='#9b59b6'/>
+<text x='175' y='645' class='bd'>Step 1</text>
+<text x='210' y='645' class='bd'>→</text>
+<rect x='222' y='630' width='50' height='22' rx='5' fill='#fff' stroke='#9b59b6'/>
+<text x='247' y='645' class='bd'>Step 2</text>
+<text x='282' y='645' class='bd'>→</text>
+<rect x='294' y='630' width='50' height='22' rx='5' fill='#fff' stroke='#9b59b6'/>
+<text x='319' y='645' class='bd'>Step 3</text>
+<rect x='365' y='720' width='270' height='75' rx='12' fill='#d6ffe8' stroke='#27ae60' stroke-width='2' filter='url(#shadow)'/><text x='500.0' y='744' class='bt'>⚙️ Tool Execution / Action Layer</text><text x='500.0' y='764' class='bd'>Act</text>
+<rect x='110' y='830' width='110' height='50' rx='8' fill='#eafaf1' stroke='#27ae60'/><text x='165.0' y='852' class='tt'>🔧 MCP</text><text x='165.0' y='868' class='tt'>Model Context</text>
+<rect x='235' y='830' width='100' height='50' rx='8' fill='#eafaf1' stroke='#27ae60'/><text x='285.0' y='852' class='tt'>⚙️ API calls</text>
+<rect x='350' y='830' width='100' height='50' rx='8' fill='#eafaf1' stroke='#27ae60'/><text x='400.0' y='852' class='tt'>💻 Code</text>
+<rect x='465' y='830' width='100' height='50' rx='8' fill='#eafaf1' stroke='#27ae60'/><text x='515.0' y='852' class='tt'>🗄️ Database</text>
+<rect x='580' y='830' width='100' height='50' rx='8' fill='#eafaf1' stroke='#27ae60'/><text x='630.0' y='852' class='tt'>📁 File system</text>
+<rect x='695' y='830' width='140' height='50' rx='8' fill='#eafaf1' stroke='#27ae60'/><text x='765.0' y='852' class='tt'>🌐 External</text><text x='765.0' y='868' class='tt'>services</text>
+<rect x='80' y='1030' width='840' height='60' rx='10' fill='#ffe8d6' stroke='#e67e22'/>
+<text x='500' y='1058' class='bt'>👀 Observability Layer</text>
+<text x='500' y='1078' class='bd'>Traces, Logs, Metrics, Cost tracking, Latency monitoring</text>
+<rect x='760' y='420' width='115' height='55' rx='8' fill='#fff' stroke='#333'/>
+<text x='817' y='452' class='lab' font-weight='700'>📄 Output</text>
+<line x1='500' y1='130' x2='500' y2='145' class='fl' />
+<line x1='500' y1='215' x2='500' y2='260' class='fl' />
+<line x1='635' y1='307' x2='750' y2='280' class='fl' />
+<line x1='965' y1='280' x2='965' y2='307' class='fl' />
+<line x1='965' y1='307' x2='635' y2='355' class='fl' />
+<line x1='500' y1='355' x2='500' y2='385' class='fl' />
+<line x1='445' y1='440' x2='355' y2='440' class='fl' />
+<line x1='355' y1='440' x2='355' y2='570' class='fl' />
+<line x1='240' y1='670' x2='240' y2='720' class='fl' />
+<line x1='365' y1='757' x2='240' y2='757' class='fl' />
+<line x1='500' y1='795' x2='500' y2='830' class='fl' />
+<line x1='520' y1='830' x2='520' y2='720' class='fl' />
+<line x1='500' y1='720' x2='500' y2='510' class='fl' />
+<line x1='555' y1='440' x2='760' y2='440' class='fl' />
+<line x1='817' y1='475' x2='817' y2='1030' class='fl' stroke-dasharray='6,4'/>
+<line x1='95' y1='270' x2='365' y2='307' class='fl' stroke-dasharray='6,4'/>
+<line x1='95' y1='757' x2='365' y2='757' class='fl' stroke-dasharray='6,4'/>
+<line x1='95' y1='1030' x2='80' y2='1030' class='fl' stroke-dasharray='6,4'/>
+<path id='animPath' d='M 500 130 L 500 145 L 500 215 L 500 260 L 635 307 L 750 280 L 965 280 L 965 307 L 635 355 L 500 355 L 500 385 L 445 440 L 355 440 L 355 570 L 240 570 L 240 720 L 365 757 L 500 757 L 500 830 L 520 830 L 520 720 L 500 720 L 500 510 L 555 440 L 760 440 L 817 475 L 817 1030 L 95 1030 L 95 270 L 365 307 L 500 307 L 500 215' fill='none' stroke='none'/>
+<circle r='7' fill='#e74c3c' stroke='#fff' stroke-width='2'><animateMotion dur='12s' repeatCount='indefinite'><mpath href='#animPath'/></animateMotion></circle>
+<path d='M 500 130 L 500 145 L 500 215 L 500 260 L 635 307 L 750 280 L 965 280 L 965 307 L 635 355 L 500 355 L 500 385 L 445 440 L 355 440 L 355 570 L 240 570 L 240 720 L 365 757 L 500 757 L 500 830 L 520 830 L 520 720 L 500 720 L 500 510 L 555 440 L 760 440 L 817 475 L 817 1030 L 95 1030 L 95 270 L 365 307 L 500 307 L 500 215' fill='none' stroke='#e74c3c' stroke-width='3' stroke-linecap='round' stroke-dasharray='20,2000' opacity='0.5'><animate attributeName='stroke-dashoffset' from='2000' to='0' dur='12s' repeatCount='indefinite'/></path>
+</svg>
