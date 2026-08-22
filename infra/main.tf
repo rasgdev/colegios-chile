@@ -58,14 +58,10 @@ resource "google_project_iam_member" "deploy_service_account_user" {
   member  = "serviceAccount:${var.deploy_sa_email}"
 }
 
-data "google_compute_default_service_account" "default" {
+resource "google_project_iam_member" "tf_sa_service_account_user" {
   project = var.project_id
-}
-
-resource "google_service_account_iam_member" "tf_sa_default_sa_user" {
-  service_account_id = data.google_compute_default_service_account.default.id
-  role               = "roles/iam.serviceAccountUser"
-  member             = "serviceAccount:${var.tf_sa_email}"
+  role    = "roles/iam.serviceAccountUser"
+  member  = "serviceAccount:${var.tf_sa_email}"
 }
 
 resource "google_project_iam_member" "deploy_compute_viewer" {
@@ -80,7 +76,7 @@ resource "time_sleep" "iam_propagation" {
     google_project_iam_member.deploy_os_login,
     google_project_iam_member.deploy_service_account_user,
     google_project_iam_member.deploy_compute_viewer,
-    google_service_account_iam_member.tf_sa_default_sa_user,
+    google_project_iam_member.tf_sa_service_account_user,
   ]
 
   create_duration = "60s"
