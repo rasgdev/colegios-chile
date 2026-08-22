@@ -87,6 +87,7 @@ gcloud iam workload-identity-pools providers create-oidc github \
   --location=global \
   --workload-identity-pool=github-pool \
   --project="$PROJECT" \
+  --issuer-uri="https://token.actions.githubusercontent.com" \
   --display-name="GitHub OIDC" \
   --attribute-mapping="google.subject=assertion.sub,attribute.actor=assertion.actor,attribute.repository=assertion.repository,attribute.ref=assertion.ref" \
   --attribute-condition="assertion.repository=='rasgdev/colegios-chile' && assertion.ref.startsWith('refs/heads/main')"

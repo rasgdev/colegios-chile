@@ -97,6 +97,7 @@ if gcloud iam workload-identity-pools providers describe "${PROVIDER}" \
 else
   gcloud iam workload-identity-pools providers create-oidc "${PROVIDER}" \
     --location=global --workload-identity-pool="${POOL}" --project="${PROJECT}" \
+    --issuer-uri="https://token.actions.githubusercontent.com" \
     --display-name="GitHub OIDC" \
     --attribute-mapping="google.subject=assertion.sub,attribute.actor=assertion.actor,attribute.repository=assertion.repository,attribute.ref=assertion.ref" \
     --attribute-condition="assertion.repository=='${REPO}' && assertion.ref.startsWith('refs/heads/main')"
