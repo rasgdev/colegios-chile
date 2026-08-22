@@ -9,6 +9,7 @@ logs/
 .ipynb_checkpoints/
 .pytest_cache/
 .ruff_cache/
+.mypy_cache/
 dist/
 *.parquet
 .venv/
@@ -17,3 +18,7 @@ dist/
 .atl/
 skills-lock.json
 frontend/.astro/
+infra/.terraform/
+infra/terraform.tfvars
+infra/*.tfstate*
+infra/crash.log
