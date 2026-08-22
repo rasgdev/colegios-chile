@@ -49,6 +49,7 @@ jobs:
           user: colegios
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           command: |
+            for i in $(seq 1 120); do [ -f /home/colegios/.setup-complete ] && break; sleep 5; done
             cd /home/colegios/app && bash scripts/deploy.sh "${{ inputs.ref || 'main' }}"
 
       - name: Smoke test

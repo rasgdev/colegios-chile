@@ -158,6 +158,8 @@ bash /home/colegios/app/scripts/deploy.sh ${repo_branch} || echo "WARN: deploy i
 
 chown -R colegios:colegios /home/colegios
 
+touch /home/colegios/.setup-complete
+
 echo "=== Setup completo ==="
 echo "IP: $(curl -s ifconfig.me)"
 echo "Estado servicios:"
