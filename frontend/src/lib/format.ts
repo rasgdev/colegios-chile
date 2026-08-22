@@ -94,6 +94,7 @@ export function gseLabel(glosa: string | null | undefined): string {
 export function sanitizeText(s: string | null | undefined): string {
   if (!s) return "";
   return s
+    // eslint-disable-next-line no-control-regex
     .replace(/[\u0000-\u001f\u007f]/g, "")
     .replace(/\r\n/g, "\n")
     .replace(/[ \t]+\n/g, "\n")
