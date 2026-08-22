@@ -1,0 +1,60 @@
+name: Deploy a GCP
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "etl/**"
+      - "alembic/**"
+      - "alembic.ini"
+      - "config/**"
+      - "frontend/**"
+      - "scripts/deploy.sh"
+      - "requirements*.txt"
+      - "pyproject.toml"
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Ref a desplegar (branch/tag/commit). Default: main"
+        required: false
+        default: "main"
+
+concurrency:
+  group: deploy-gcp
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT }}
+
+      - name: Deploy por SSH (IAP + OS Login)
+        uses: google-github-actions/ssh-compute@v1
+        with:
+          instance: colegios-server
+          zone: us-central1-a
+          tunnel_through_iap: true
+          os_login: true
+          user: ${{ secrets.SERVICE_ACCOUNT }}
+          command: |
+            cd /home/colegios/app && bash scripts/deploy.sh "${{ inputs.ref || 'main' }}"
+
+      - name: Smoke test
+        run: |
+          IP=$(gcloud compute addresses describe colegios-static-ip \
+            --region us-central1 --format="value(address)")
+          curl -fsS --retry 5 --retry-delay 5 --retry-all-errors \
+            "http://${IP}/api/v1/health"
