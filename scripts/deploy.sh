@@ -38,6 +38,6 @@ npm install
 NODE_OPTIONS=--max-old-space-size=512 npm run build
 
 echo "=== Reiniciando servicios ==="
-systemctl restart colegios-backend colegios-frontend
+sudo systemctl restart colegios-backend colegios-frontend
 
 echo "=== Deploy OK ==="

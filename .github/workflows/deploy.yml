@@ -44,11 +44,10 @@ jobs:
       - name: Deploy por SSH (IAP + OS Login)
         uses: google-github-actions/ssh-compute@v1
         with:
-          instance: colegios-server
+          instance_name: colegios-server
           zone: us-central1-a
-          tunnel_through_iap: true
-          os_login: true
-          user: ${{ secrets.SERVICE_ACCOUNT }}
+          user: colegios
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           command: |
             cd /home/colegios/app && bash scripts/deploy.sh "${{ inputs.ref || 'main' }}"
 

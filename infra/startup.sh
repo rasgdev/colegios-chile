@@ -51,6 +51,13 @@ sudo -u postgres psql -c "CREATE USER colegios WITH PASSWORD '${db_password}';" 
 sudo -u postgres psql -c "CREATE DATABASE colegios OWNER colegios;" || true
 sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE colegios TO colegios;" || true
 
+echo "=== Creando usuario de deploy ==="
+id -u colegios >/dev/null 2>&1 || useradd -m -s /bin/bash colegios
+cat > /etc/sudoers.d/colegios << 'SUDOEOF'
+colegios ALL=(root) NOPASSWD: /usr/bin/systemctl restart colegios-backend colegios-frontend, /usr/bin/systemctl status colegios-backend colegios-frontend
+SUDOEOF
+chmod 440 /etc/sudoers.d/colegios
+
 echo "=== Clonando repositorio ==="
 mkdir -p /home/colegios
 if [ -d /home/colegios/app ]; then
@@ -148,6 +155,8 @@ nginx -t && systemctl reload nginx
 
 echo "=== Deploy inicial ==="
 bash /home/colegios/app/scripts/deploy.sh ${repo_branch}
+
+chown -R colegios:colegios /home/colegios
 
 echo "=== Setup completo ==="
 echo "IP: $(curl -s ifconfig.me)"

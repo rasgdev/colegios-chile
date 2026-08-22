@@ -61,3 +61,8 @@ variable "ssh_source_ranges" {
   type        = list(string)
   default     = []
 }
+
+variable "ssh_public_key" {
+  description = "Clave SSH pública del usuario 'colegios' para deploy vía IAP"
+  type        = string
+}

@@ -120,7 +120,7 @@ resource "google_compute_instance" "colegios_server" {
   }
 
   metadata = {
-    enable-oslogin = "TRUE"
+    ssh-keys = "colegios:${var.ssh_public_key}"
     startup-script = templatefile("${path.module}/startup.sh", {
       repo_url    = var.repo_url
       repo_branch = var.repo_branch
