@@ -51,6 +51,11 @@ variable "deploy_sa_email" {
   type        = string
 }
 
+variable "tf_sa_email" {
+  description = "Email del service account amplio que ejecuta terraform (WIF)"
+  type        = string
+}
+
 variable "ssh_source_ranges" {
   description = "Rangos CIDR permitidos para SSH directo. Con IAP puede quedar [] (cerrado)"
   type        = list(string)

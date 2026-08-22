@@ -30,6 +30,7 @@ jobs:
       TF_VAR_repo_url: ${{ secrets.TF_VAR_repo_url }}
       TF_VAR_repo_branch: ${{ secrets.TF_VAR_repo_branch }}
       TF_VAR_deploy_sa_email: ${{ secrets.TF_VAR_deploy_sa_email }}
+      TF_VAR_tf_sa_email: ${{ secrets.TERRAFORM_SERVICE_ACCOUNT }}
       TF_VAR_ssh_source_ranges: "[]"
 
     steps:
