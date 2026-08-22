@@ -49,31 +49,28 @@ gcloud storage buckets create gs://colegios-chile-tfstate --project="$PROJECT" -
 gcloud storage buckets update gs://colegios-chile-tfstate --versioning
 ```
 
-## 3. Service Account (identidad de GitHub Actions)
+## 3. Service Accounts (identidad de GitHub Actions)
+
+Se usan **dos** (principio de menor privilegio):
+
+- `deploy-gha`: roles mínimos de deploy. Los crea Terraform (`main.tf`) en el paso 6.
+- `terraform-gha`: roles amplios para correr `terraform apply` (solo infra manual).
 
 ```bash
-gcloud iam service-accounts create deploy-gha \
-  --project="$PROJECT" \
-  --display-name="GitHub Actions deploy"
+gcloud iam service-accounts create deploy-gha --project="$PROJECT" --display-name="GitHub Actions deploy"
+gcloud iam service-accounts create terraform-gha --project="$PROJECT" --display-name="GitHub Actions terraform"
 
 SA=deploy-gha@$PROJECT.iam.gserviceaccount.com
+TF_SA=terraform-gha@$PROJECT.iam.gserviceaccount.com
 
-# Roles para correr terraform (apply del primer commit de infra):
-gcloud projects add-iam-policy-binding "$PROJECT" \
-  --member="serviceAccount:$SA" \
-  --role=roles/compute.admin
-gcloud projects add-iam-policy-binding "$PROJECT" \
-  --member="serviceAccount:$SA" \
-  --role=roles/serviceusage.serviceUsageAdmin
-gcloud projects add-iam-policy-binding "$PROJECT" \
-  --member="serviceAccount:$SA" \
-  --role=roles/resourcemanager.projectIamAdmin
-gcloud projects add-iam-policy-binding "$PROJECT" \
-  --member="serviceAccount:$SA" \
-  --role=roles/storage.objectAdmin
+# Roles amplios SOLO para terraform-gha:
+gcloud projects add-iam-policy-binding "$PROJECT" --member="serviceAccount:$TF_SA" --role=roles/compute.admin
+gcloud projects add-iam-policy-binding "$PROJECT" --member="serviceAccount:$TF_SA" --role=roles/serviceusage.serviceUsageAdmin
+gcloud projects add-iam-policy-binding "$PROJECT" --member="serviceAccount:$TF_SA" --role=roles/resourcemanager.projectIamAdmin
+gcloud projects add-iam-policy-binding "$PROJECT" --member="serviceAccount:$TF_SA" --role=roles/storage.objectAdmin
 
-# Roles de deploy (IAP + OS Login + lectura) los crea Terraform (main.tf),
-# así que se aplican en el paso 6 automáticamente.
+# Roles de deploy (IAP + OS Login + lectura) los crea Terraform (main.tf)
+# para deploy-gha en el paso 6 automáticamente.
 ```
 
 ## 4. Workload Identity Federation
@@ -93,10 +90,12 @@ gcloud iam workload-identity-pools providers create-oidc github \
   --attribute-condition="assertion.repository=='rasgdev/colegios-chile' && assertion.ref.startsWith('refs/heads/main')"
 
 PROJECT_NUMBER=$(gcloud projects describe "$PROJECT" --format="value(projectNumber)")
-gcloud iam service-accounts add-iam-policy-binding "$SA" \
-  --project="$PROJECT" \
-  --role=roles/iam.workloadIdentityUser \
-  --member="principalSet://iam.googleapis.com/projects/$PROJECT_NUMBER/locations/global/workloadIdentityPools/github-pool/attribute.repository/rasgdev/colegios-chile"
+for SA_EMAIL in "$SA" "$TF_SA"; do
+  gcloud iam service-accounts add-iam-policy-binding "$SA_EMAIL" \
+    --project="$PROJECT" \
+    --role=roles/iam.workloadIdentityUser \
+    --member="principalSet://iam.googleapis.com/projects/$PROJECT_NUMBER/locations/global/workloadIdentityPools/github-pool/attribute.repository/rasgdev/colegios-chile"
+done
 
 # Obten el WORKLOAD_IDENTITY_PROVIDER:
 gcloud iam workload-identity-pools providers describe github \
@@ -114,7 +113,8 @@ Crear en GitHub → Settings → Secrets and variables → Actions:
 | Secret | Valor |
 |---|---|
 | `WORKLOAD_IDENTITY_PROVIDER` | output del comando anterior |
-| `SERVICE_ACCOUNT` | `deploy-gha@my-project-colegios-chile.iam.gserviceaccount.com` |
+| `SERVICE_ACCOUNT` | `deploy-gha@my-project-colegios-chile.iam.gserviceaccount.com` (deploy.yml) |
+| `TERRAFORM_SERVICE_ACCOUNT` | `terraform-gha@my-project-colegios-chile.iam.gserviceaccount.com` (infra.yml) |
 | `TF_VAR_project_id` | `my-project-colegios-chile` |
 | `TF_VAR_region` | `us-central1` |
 | `TF_VAR_zone` | `us-central1-a` |

@@ -18,6 +18,7 @@ PROJECT="${PROJECT_ID:-my-project-colegios-chile}"
 REGION="${GCP_REGION:-us-central1}"
 BUCKET="${TF_STATE_BUCKET:-colegios-chile-tfstate}"
 SA_NAME="${DEPLOY_SA_NAME:-deploy-gha}"
+TF_SA_NAME="${TERRAFORM_SA_NAME:-terraform-gha}"
 POOL="github-pool"
 PROVIDER="github"
 REPO="${GITHUB_REPO:-rasgdev/colegios-chile}"
@@ -60,25 +61,46 @@ else
   log "Bucket creado con versioning: gs://${BUCKET}"
 fi
 
-# ── 2. Service Account ─────────────────────────────────────
-SA_EMAIL="${SA_NAME}@${PROJECT}.iam.gserviceaccount.com"
-if gcloud iam service-accounts describe "${SA_EMAIL}" --project="${PROJECT}" >/dev/null 2>&1; then
-  warn "SA ${SA_EMAIL} ya existe; omito creación."
-else
-  gcloud iam service-accounts create "${SA_NAME}" \
-    --project="${PROJECT}" --display-name="GitHub Actions deploy"
-  log "SA creado: ${SA_EMAIL}"
-fi
+# ── 2. Service Accounts ────────────────────────────────────
+# deploy-gha:   mínimo. Solo roles de deploy (los crea Terraform via main.tf).
+# terraform-gha: amplio. Necesita los roles de terraform (bootstrap via script).
+DEPLOY_SA_EMAIL="${SA_NAME}@${PROJECT}.iam.gserviceaccount.com"
+TF_SA_EMAIL="${TF_SA_NAME}@${PROJECT}.iam.gserviceaccount.com"
 
-# Roles para terraform (add-iam-policy-binding es idempotente).
+for sa in "${SA_NAME}" "${TF_SA_NAME}"; do
+  email="${sa}@${PROJECT}.iam.gserviceaccount.com"
+  if gcloud iam service-accounts describe "${email}" --project="${PROJECT}" >/dev/null 2>&1; then
+    warn "SA ${email} ya existe; omito creación."
+  else
+    gcloud iam service-accounts create "${sa}" \
+      --project="${PROJECT}" --display-name="GitHub Actions (${sa})"
+    log "SA creado: ${email}"
+  fi
+done
+
+# Roles amplios SOLO para el SA de terraform (bootstrap, idempotente).
 for role in \
   roles/compute.admin \
   roles/serviceusage.serviceUsageAdmin \
   roles/resourcemanager.projectIamAdmin \
   roles/storage.objectAdmin; do
   gcloud projects add-iam-policy-binding "${PROJECT}" \
-    --member="serviceAccount:${SA_EMAIL}" --role="${role}" >/dev/null
-  log "Rol asignado: ${role}"
+    --member="serviceAccount:${TF_SA_EMAIL}" --role="${role}" >/dev/null
+  log "Rol ${role} → terraform-gha"
+done
+
+# Limpieza: quitar roles amplios de deploy-gha si se asignaron en runs anteriores.
+for role in \
+  roles/compute.admin \
+  roles/serviceusage.serviceUsageAdmin \
+  roles/resourcemanager.projectIamAdmin \
+  roles/storage.objectAdmin; do
+  if gcloud projects remove-iam-policy-binding "${PROJECT}" \
+    --member="serviceAccount:${DEPLOY_SA_EMAIL}" --role="${role}" >/dev/null 2>&1; then
+    log "Rol ${role} revocado de deploy-gha"
+  else
+    warn "Sin ${role} en deploy-gha; omito."
+  fi
 done
 
 # ── 3. WIF: pool + provider + binding al repo ──────────────
@@ -106,10 +128,12 @@ fi
 
 PROJECT_NUMBER=$(gcloud projects describe "${PROJECT}" --format="value(projectNumber)")
 PRINCIPAL="principalSet://iam.googleapis.com/projects/${PROJECT_NUMBER}/locations/global/workloadIdentityPools/${POOL}/attribute.repository/${REPO}"
-gcloud iam service-accounts add-iam-policy-binding "${SA_EMAIL}" \
-  --project="${PROJECT}" --role=roles/iam.workloadIdentityUser \
-  --member="${PRINCIPAL}" >/dev/null
-log "Binding WIF SA ↔ pool listo."
+for email in "${DEPLOY_SA_EMAIL}" "${TF_SA_EMAIL}"; do
+  gcloud iam service-accounts add-iam-policy-binding "${email}" \
+    --project="${PROJECT}" --role=roles/iam.workloadIdentityUser \
+    --member="${PRINCIPAL}" >/dev/null
+  log "Binding WIF → ${email}"
+done
 
 # ── 4. Salida ──────────────────────────────────────────────
 WIP=$(gcloud iam workload-identity-pools providers describe "${PROVIDER}" \
@@ -119,8 +143,9 @@ echo ""
 echo "=========================================================="
 echo " Setup completo. Copia estos valores a GitHub Secrets:"
 echo "=========================================================="
-echo "WORKLOAD_IDENTITY_PROVIDER = ${WIP}"
-echo "SERVICE_ACCOUNT            = ${SA_EMAIL}"
+echo "WORKLOAD_IDENTITY_PROVIDER  = ${WIP}"
+echo "SERVICE_ACCOUNT             = ${DEPLOY_SA_EMAIL}    (deploy.yml)"
+echo "TERRAFORM_SERVICE_ACCOUNT   = ${TF_SA_EMAIL}    (infra.yml)"
 echo ""
 echo "Además (Settings → Secrets and variables → Actions):"
 echo "  TF_VAR_project_id      = ${PROJECT}"
@@ -129,7 +154,7 @@ echo "  TF_VAR_zone            = us-central1-a"
 echo "  TF_VAR_db_password     = <password de PostgreSQL de producción>"
 echo "  TF_VAR_repo_url        = https://github.com/${REPO}.git"
 echo "  TF_VAR_repo_branch     = main"
-echo "  TF_VAR_deploy_sa_email = ${SA_EMAIL}"
+echo "  TF_VAR_deploy_sa_email = ${DEPLOY_SA_EMAIL}"
 echo ""
 echo "Después: Actions → Infra GCP (manual) → Run workflow → Apply"
 echo "para crear la VM (única vez)."
