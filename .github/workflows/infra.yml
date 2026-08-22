@@ -7,6 +7,10 @@ on:
         description: "Solo plan (true) o apply (false)"
         required: false
         default: "false"
+      recreate:
+        description: "Recrear la VM (terraform taint). true/false"
+        required: false
+        default: "false"
 
 concurrency:
   group: infra-gcp
@@ -49,6 +53,10 @@ jobs:
 
       - name: Init
         run: terraform init -backend-config=bucket=colegios-chile-tfstate -backend-config=prefix=infra
+
+      - name: Taint VM (recreate)
+        if: github.event.inputs.recreate == 'true'
+        run: terraform taint google_compute_instance.colegios_server || true
 
       - name: Plan
         run: terraform plan -out=tfplan

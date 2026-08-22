@@ -154,7 +154,7 @@ rm -f /etc/nginx/sites-enabled/default
 nginx -t && systemctl reload nginx
 
 echo "=== Deploy inicial ==="
-bash /home/colegios/app/scripts/deploy.sh ${repo_branch}
+bash /home/colegios/app/scripts/deploy.sh ${repo_branch} || echo "WARN: deploy inicial falló; se reintentará vía CI"
 
 chown -R colegios:colegios /home/colegios
 
