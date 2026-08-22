@@ -21,6 +21,8 @@ class EstablecimientoListItem(BaseModel):
     nivel_maximo: str | None = None
     etiquetas: list[str] = []
     alumnos_matriculados: int | None = None
+    comuna: str | None = None
+    region: str | None = None
 
 
 class EstablecimientoOut(BaseModel):

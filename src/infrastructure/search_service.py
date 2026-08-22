@@ -29,6 +29,14 @@ _EST_COLUMNS = (
 
 _RANK_EXPR = "ts_rank_cd(busqueda_tsvector, websearch_to_tsquery('spanish_unaccent', :q))"
 
+# Subqueries correlacionadas para ubicación (primera sede por codigo_sede).
+_UBICACION_SQL = (
+    "(SELECT s.comuna FROM sedes s WHERE s.rbd = establecimientos.rbd "
+    "ORDER BY s.codigo_sede LIMIT 1) AS comuna, "
+    "(SELECT s.region FROM sedes s WHERE s.rbd = establecimientos.rbd "
+    "ORDER BY s.codigo_sede LIMIT 1) AS region"
+)
+
 
 def _nivel_case(column: str) -> str:
     """CASE que mapea un grado concreto a su índice ordinal (para rango de nivel)."""
@@ -63,6 +71,8 @@ def _row_to_establecimiento(row) -> Establecimiento:
         promedio_alumnos_por_curso=row.promedio_alumnos_por_curso,
         cantidad_docentes=row.cantidad_docentes,
         regimen=row.regimen,
+        comuna=row.comuna,
+        region=row.region,
     )
 
 
@@ -89,7 +99,7 @@ class SearchService:
         )
         cols = ", ".join(_EST_COLUMNS)
         sql = (
-            f"SELECT {cols} FROM establecimientos {where_sql} "
+            f"SELECT {cols}, {_UBICACION_SQL} FROM establecimientos {where_sql} "
             f"ORDER BY {order} LIMIT :limit OFFSET :offset"
         )
         params = {**params, "limit": query.limit, "offset": query.offset}

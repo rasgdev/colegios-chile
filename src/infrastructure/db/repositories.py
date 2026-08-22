@@ -29,7 +29,12 @@ def _to_comuna(row: orm.Comuna) -> Comuna:
     return Comuna(codigo=row.codigo, nombre=row.nombre, codigo_region=row.codigo_region)
 
 
-def _to_establecimiento(row: orm.Establecimiento) -> Establecimiento:
+def _to_establecimiento(
+    row: orm.Establecimiento,
+    *,
+    comuna: str | None = None,
+    region: str | None = None,
+) -> Establecimiento:
     return Establecimiento(
         rbd=row.rbd,
         nombre=row.nombre,
@@ -56,6 +61,8 @@ def _to_establecimiento(row: orm.Establecimiento) -> Establecimiento:
         promedio_alumnos_por_curso=row.promedio_alumnos_por_curso,
         cantidad_docentes=row.cantidad_docentes,
         regimen=row.regimen,
+        comuna=getattr(row, "comuna", comuna),
+        region=getattr(row, "region", region),
     )
 
 
@@ -233,7 +240,26 @@ class SqlEstablecimientoRepository:
         if regimen is not None:
             conditions.append(func.upper(orm.Establecimiento.regimen) == regimen)
 
-        base = select(orm.Establecimiento)
+        comuna_subq = (
+            select(orm.Sede.comuna)
+            .where(orm.Sede.rbd == orm.Establecimiento.rbd)
+            .order_by(orm.Sede.codigo_sede)
+            .limit(1)
+            .correlate(orm.Establecimiento)
+            .scalar_subquery()
+            .label("comuna")
+        )
+        region_subq = (
+            select(orm.Sede.region)
+            .where(orm.Sede.rbd == orm.Establecimiento.rbd)
+            .order_by(orm.Sede.codigo_sede)
+            .limit(1)
+            .correlate(orm.Establecimiento)
+            .scalar_subquery()
+            .label("region")
+        )
+
+        base = select(orm.Establecimiento, comuna_subq, region_subq)
         if conditions:
             base = base.where(*conditions)
 
@@ -249,8 +275,8 @@ class SqlEstablecimientoRepository:
             await self.session.execute(
                 base.order_by(orm.Establecimiento.nombre).limit(limit).offset(offset)
             )
-        ).scalars().all()
-        return [_to_establecimiento(r) for r in rows], total
+        ).all()
+        return [_to_establecimiento(r[0], comuna=r[1], region=r[2]) for r in rows], total
 
     async def total(self) -> int:
         return (

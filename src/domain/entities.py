@@ -109,6 +109,8 @@ class Establecimiento:
     promedio_alumnos_por_curso: float | None = None
     cantidad_docentes: int | None = None
     regimen: str | None = None
+    comuna: str | None = None
+    region: str | None = None
 
 
 @dataclass(frozen=True)
