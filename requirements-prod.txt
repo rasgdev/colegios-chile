@@ -1,0 +1,226 @@
+# Plan de Deploy — GCP e2-micro (Costo $0/mes)
+
+> **Objetivo**: Hostear Colegios de Chile en Google Cloud Platform usando la instancia e2-micro dentro del free tier permanente.  
+> **Stack**: Astro 7 (SSR Node.js) + FastAPI (Python) + PostgreSQL 15  
+> **Costo estimado**: $0/mes (VM) + ~$11/ano (dominio)  
+> **Fecha**: agosto 2026
+
+---
+
+## 1. Resumen ejecutivo
+
+| Concepto | Valor |
+|---|---|
+| **Instancia** | GCP Compute Engine e2-micro |
+| **Specs** | 0.25 vCPU (shared), 1 GB RAM, 30 GB disco |
+| **Region** | us-central1 (Iowa) — free tier |
+| **Costo VM** | **$0/mes** (free tier permanente, 730 horas/mes) |
+| **Costo dominio** | ~$11/ano (Cloudflare .com o NIC.cl .cl) |
+| **Costo egress** | $0 (1 GB/mes incluido; tráfico menor a tu sitio) |
+| **Costo total mes 1** | **~$0.90/mes** (solo dominio) |
+| **Costo total ano 1** | **~$11 USD** |
+
+### Limitaciones clave
+
+- **1 GB RAM**: Tu stack consume ~500 MB. Sobran ~400 MB para el SO y picos.
+- **Sin Docker**: El daemon de Docker consume ~200 MB que no tienes.
+- **Sin multi-site**: No hay RAM para montar otros proyectos.
+- **Latencia**: ~120–150 ms desde Iowa a Chile (aceptable para un dataset de solo lectura).
+- **0.25 vCPU shared**: En horas pico puede ser lento, pero para tráfico bajo es suficiente.
+
+---
+
+## 2. Huella de recursos del proyecto
+
+Basado en análisis real del código y datos:
+
+### Disco
+
+| Componente | Disco en prod |
+|---|---|
+| Ubuntu 24.04 LTS | ~1.5 GB |
+| PostgreSQL 15 (servicio) | ~100 MB |
+| Base de datos `colegios` | ~25–30 MB |
+| Python venv (solo backend) | ~200–250 MB |
+| Astro dist/ (frontend compilado) | ~10 MB |
+| Nginx | ~10 MB |
+| Logs + temporales | ~50 MB |
+| **Total** | **~1.9–2.0 GB** |
+| **Disponible** | **30 GB** |
+| **Sobra** | **~28 GB** |
+
+### RAM
+
+| Componente | RAM estimada |
+|---|---|
+| Ubuntu (servicios base) | ~200 MB |
+| PostgreSQL (tuneado) | ~80–100 MB |
+| FastAPI/Uvicorn (1 worker) | ~50–80 MB |
+| Astro SSR (Node.js) | ~80–120 MB |
+| Nginx | ~10–20 MB |
+| **Total** | **~420–520 MB** |
+| **Disponible** | **1,024 MB** |
+| **Sobra** | **~500 MB** |
+
+---
+
+## 3. Prerequisitos
+
+1. **Cuenta Google Cloud** (nueva o existente). El free tier no expira.
+2. **Tarjeta de crédito** para verificar la cuenta (no se cobra mientras estés en free tier).
+3. **Dominio registrado** (Cloudflare, Porkbun o NIC.cl).
+4. ** SSH key** para acceder a la VM.
+
+---
+
+## 4. Setup paso a paso
+
+### 4.1 Crear proyecto en GCP
+
+```bash
+# Opcion A: CLI (gcloud)
+gcloud projects create colegios-chile --name="Colegios Chile"
+gcloud config set project colegios-chile
+
+# Opcion B: Console web
+# https://console.cloud.google.com/projectcreate
+```
+
+### 4.2 Habilitar Compute Engine
+
+```bash
+gcloud services enable compute.googleapis.com
+```
+
+### 4.3 Crear la instancia e2-micro
+
+```bash
+gcloud compute instances create colegios-server \
+  --zone=us-central1-a \
+  --machine-type=e2-micro \
+  --image-family=ubuntu-2404-lts-amd64 \
+  --image-project=ubuntu-os-cloud \
+  --boot-disk-size=20GB \
+  --boot-disk-type=pd-standard \
+  --tags=web-server \
+  --metadata=startup-script='#!/bin/bash
+apt-get update && apt-get upgrade -y'
+```
+
+**Notas**:
+- `us-central1-a` es una de las 3 regiones que califica para free tier.
+- `pd-standard` (HDD) es gratis dentro del free tier. `pd-balanced` (SSD) cobra ~$1.70/mes extra.
+- El disco de 20 GB es más que suficiente (tu app usa ~2 GB).
+
+### 4.4 Configurar firewall
+
+```bash
+# Permitir HTTP y HTTPS
+gcloud compute firewall-rules create allow-http-https \
+  --allow=tcp:80,tcp:443 \
+  --target-tags=web-server \
+  --description="Allow HTTP and HTTPS traffic"
+
+# Permitir SSH (restringido a tu IP — opcional pero recomendado)
+gcloud compute firewall-rules create allow-ssh \
+  --allow=tcp:22 \
+  --source-ranges=0.0.0.0/0 \
+  --target-tags=web-server \
+  --description="Allow SSH"
+```
+
+### 4.5 Conectarse a la VM
+
+```bash
+gcloud compute ssh colegios-server --zone=us-central1-a
+```
+
+### 4.6 Instalar dependencias en la VM
+
+```bash
+# Actualizar sistema
+sudo apt update && sudo apt upgrade -y
+
+# Instalar PostgreSQL 15
+sudo apt install -y postgresql postgresql-contrib
+
+# Instalar Python 3.12 + pip
+sudo apt install -y python3 python3-pip python3-venv
+
+# Instalar Node.js 20 LTS
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+
+# Instalar Nginx
+sudo apt install -y nginx
+
+# Instalar Certbot (SSL gratuito)
+sudo apt install -y certbot python3-certbot-nginx
+
+# Verificar versiones
+node --version    # v20.x
+python3 --version # 3.12.x
+psql --version    # 15.x
+nginx -v          # 1.24+
+```
+
+---
+
+## 5. Configuracion de PostgreSQL (MINIMO consumo de RAM)
+
+Edita `/etc/postgresql/15/main/postgresql.conf`:
+
+```ini
+# Memoria
+shared_buffers = 64MB           # Default 128MB — reducimos a la mitad
+effective_cache_size = 128MB    # Default 4GB — reducimos drasticamente
+work_mem = 4MB                  # Default 4MB — mantenemos
+maintenance_work_mem = 32MB     # Default 64MB — reducimos
+
+# Conexiones
+max_connections = 20            # Default 100 — reducimos (solo 1 app)
+
+# WAL
+wal_buffers = 4MB               # Default -1 (auto) — fijamos bajo
+checkpoint_completion_target = 0.9
+
+# Logging (minimo)
+logging_collector = off
+log_min_messages = warning
+
+# Seguridad
+listen_addresses = 'localhost'  # Solo local — Nginx maneja externo
+```
+
+Reiniciar PostgreSQL:
+```bash
+sudo systemctl restart postgresql
+```
+
+**Consumo estimado**: ~60–80 MB RAM (vs ~200 MB con configuracion default).
+
+---
+
+## 6. Configuracion de la aplicacion
+
+### 6.1 Clonar el repo
+
+```bash
+cd /home/colegios
+git clone https://github.com/tu-usuario/colegios-chile.git
+cd colegios-chile
+```
+
+### 6.2 Crear requirements-prod.txt
+
+Este archivo elimina las dependencias del ETL (Polars, PyArrow, DuckDB) que solo necesitas en tu maquina local. reduces el venv de ~393 MB a ~200 MB.<tool_call>
+<function=write>
+<parameter=content># Backend / persistencia (solo lo que necesita el servidor)
+fastapi>=0.110.0
+uvicorn[standard]>=0.29.0
+sqlalchemy[asyncio]>=2.0.30
+asyncpg>=0.29.0
+alembic>=1.13.0
+slowapi>=0.1.9
+pydantic-settings>=2.1.0
+structlog>=23.2.0
