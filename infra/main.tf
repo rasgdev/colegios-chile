@@ -52,6 +52,19 @@ resource "google_project_iam_member" "deploy_os_login" {
   member  = "serviceAccount:${var.deploy_sa_email}"
 }
 
+resource "google_project_iam_custom_role" "deploy_ssh_metadata" {
+  role_id     = "deploySshMetadata"
+  title       = "Deploy SSH Metadata"
+  description = "Permite a la SA de deploy agregar su clave SSH al metadata (gcloud compute ssh)"
+  permissions = ["compute.instances.setMetadata"]
+}
+
+resource "google_project_iam_member" "deploy_set_metadata" {
+  project = var.project_id
+  role    = google_project_iam_custom_role.deploy_ssh_metadata.id
+  member  = "serviceAccount:${var.deploy_sa_email}"
+}
+
 resource "google_project_iam_member" "deploy_service_account_user" {
   project = var.project_id
   role    = "roles/iam.serviceAccountUser"
