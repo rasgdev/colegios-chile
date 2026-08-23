@@ -48,8 +48,7 @@ jobs:
           zone: us-central1-a
           user: colegios
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-          command: |
-            cd /home/colegios/app && bash scripts/deploy.sh "${{ github.event.inputs.ref || 'main' }}"
+          command: 'cd /home/colegios/app && bash scripts/deploy.sh "${{ github.event.inputs.ref || ''main'' }}"'
 
       - name: Smoke test
         run: |

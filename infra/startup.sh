@@ -84,9 +84,9 @@ run_with_retries 3 15 "apt-get install deps" apt-get install -y \
 # ──────────────────────────────────────────────
 # 3. Node.js 20 LTS
 # ──────────────────────────────────────────────
-log "=== Instalando Node.js 20 LTS ==="
-if ! command -v node &>/dev/null || ! node -v | grep -q '^v20'; then
-  run_with_retries 3 15 "nodesource setup" curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+log "=== Instalando Node.js 22 LTS ==="
+if ! command -v node &>/dev/null || ! node -v | grep -q '^v22'; then
+  run_with_retries 3 15 "nodesource setup" curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
   run_with_retries 2 15 "apt-get install nodejs" apt-get install -y nodejs || { log "ERROR critico: nodejs install fallo"; exit 1; }
   log "  Node.js $(node -v) instalado"
 else
@@ -239,6 +239,33 @@ server {
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location /docs {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location /redoc {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location /openapi.json {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
