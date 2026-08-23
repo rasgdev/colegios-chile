@@ -41,7 +41,7 @@ jobs:
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ secrets.SERVICE_ACCOUNT }}
 
-      - name: Deploy por SSH (IAP + OS Login)
+      - name: Deploy por SSH (IAP)
         uses: google-github-actions/ssh-compute@v1
         with:
           instance_name: colegios-server
@@ -49,8 +49,7 @@ jobs:
           user: colegios
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           command: |
-            for i in $(seq 1 120); do [ -f /home/colegios/.setup-complete ] && break; sleep 5; done
-            cd /home/colegios/app && bash scripts/deploy.sh "${{ inputs.ref || 'main' }}"
+            cd /home/colegios/app && bash scripts/deploy.sh "${{ github.event.inputs.ref || 'main' }}"
 
       - name: Smoke test
         run: |

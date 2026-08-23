@@ -46,12 +46,6 @@ resource "google_project_iam_member" "deploy_iap_tunnel" {
   member  = "serviceAccount:${var.deploy_sa_email}"
 }
 
-resource "google_project_iam_member" "deploy_os_login" {
-  project = var.project_id
-  role    = "roles/compute.osLogin"
-  member  = "serviceAccount:${var.deploy_sa_email}"
-}
-
 resource "google_project_iam_member" "deploy_instance_admin" {
   project = var.project_id
   role    = "roles/compute.instanceAdmin.v1"
@@ -70,19 +64,12 @@ resource "google_project_iam_member" "tf_sa_service_account_user" {
   member  = "serviceAccount:${var.tf_sa_email}"
 }
 
-resource "google_project_iam_member" "deploy_compute_viewer" {
-  project = var.project_id
-  role    = "roles/compute.viewer"
-  member  = "serviceAccount:${var.deploy_sa_email}"
-}
-
 resource "time_sleep" "iam_propagation" {
   depends_on = [
     google_project_iam_member.deploy_iap_tunnel,
-    google_project_iam_member.deploy_os_login,
     google_project_iam_member.deploy_service_account_user,
-    google_project_iam_member.deploy_compute_viewer,
     google_project_iam_member.tf_sa_service_account_user,
+    google_project_iam_member.deploy_instance_admin,
   ]
 
   create_duration = "60s"
