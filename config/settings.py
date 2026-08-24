@@ -38,6 +38,7 @@ class Settings(BaseSettings):
     database_url: str = "postgresql+asyncpg://colegios:colegios@localhost:5432/colegios"
     api_port: int = 8000
     frontend_port: int = 4321
+    cors_origins: str = ""
 
     @property
     def comunas_raw_dir(self) -> Path:

@@ -25,7 +25,7 @@ Por lo tanto, el objetivo de seguridad no es la confidencialidad, sino:
 | Control | Estado | Detalle |
 |---|---|---|
 | Rate limiting por IP | ✅ | `slowapi` con `key_func=get_remote_address`. search/compare 30/min, resto 60/min |
-| CORS | ✅ | Orígenes explícitos (`:4321`), sin wildcard, `allow_credentials` con lista concreta |
+| CORS | ✅ | `allow_credentials=False`; dev usa orígenes explícitos (`:4321`), prod sin cabeceras CORS (same-origin vía nginx), nunca wildcard |
 | SQL injection | ✅ | Queries parametrizadas en `SearchService` (SQL dinámico = constantes hardcodeadas) |
 | Validación de entrada | ✅ | Pydantic (`limit ge/le`, `offset ge`) + validación de dominio en use cases |
 | Errores sin fuga | ✅ | `exceptions.py` → `{error, detail, status_code}` controlado, sin stack traces |

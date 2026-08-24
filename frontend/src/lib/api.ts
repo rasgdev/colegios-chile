@@ -14,13 +14,13 @@ export type ActividadOut = components["schemas"]["ActividadOut"];
 export type ImagenOut = components["schemas"]["ImagenOut"];
 
 const getApiBase = (): string => {
-  if (typeof window === "undefined") {
-    return "http://127.0.0.1:8000/api/v1";
+  if (import.meta.env.SSR) {
+    return (
+      process.env.INTERNAL_API_BASE_URL ??
+      "http://127.0.0.1:8000/api/v1"
+    );
   }
-  if (import.meta.env.PUBLIC_API_BASE_URL) {
-    return import.meta.env.PUBLIC_API_BASE_URL;
-  }
-  return "/api/v1";
+  return import.meta.env.PUBLIC_API_BASE_URL || "/api/v1";
 };
 
 export const API_BASE = getApiBase();

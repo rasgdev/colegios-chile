@@ -17,16 +17,18 @@ from src.api.routers import ALL_ROUTERS
 
 API_PREFIX = "/api/v1"
 
-PRODUCTION_ORIGINS = [
+DEV_ORIGINS = [
     "http://localhost:4321",
     "http://127.0.0.1:4321",
 ]
 
 
 def _get_cors_origins() -> list[str]:
+    if settings.cors_origins.strip():
+        return [o.strip() for o in settings.cors_origins.split(",") if o.strip()]
     if settings.environment == "production":
-        return ["*"]
-    return PRODUCTION_ORIGINS
+        return []
+    return DEV_ORIGINS
 
 
 def _load_dataset_version() -> str:
@@ -58,7 +60,7 @@ def create_app() -> FastAPI:
     app.add_middleware(
         CORSMiddleware,
         allow_origins=_get_cors_origins(),
-        allow_credentials=True,
+        allow_credentials=False,
         allow_methods=["*"],
         allow_headers=["*"],
     )

@@ -220,6 +220,7 @@ Environment=PATH=/home/colegios/app/frontend/node_modules/.bin:/usr/local/bin:/u
 Environment=HOST=127.0.0.1
 Environment=PORT=4321
 Environment=NODE_ENV=production
+Environment=INTERNAL_API_BASE_URL=http://127.0.0.1:8000/api/v1
 ExecStart=/usr/bin/node ./dist/server/entry.mjs
 Restart=always
 RestartSec=5
