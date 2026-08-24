@@ -13,8 +13,17 @@ export type IndicadorOut = components["schemas"]["IndicadorOut"];
 export type ActividadOut = components["schemas"]["ActividadOut"];
 export type ImagenOut = components["schemas"]["ImagenOut"];
 
-export const API_BASE =
-  import.meta.env.PUBLIC_API_BASE_URL ?? "http://localhost:8000/api/v1";
+const getApiBase = (): string => {
+  if (import.meta.env.PUBLIC_API_BASE_URL) {
+    return import.meta.env.PUBLIC_API_BASE_URL;
+  }
+  if (import.meta.env.PROD) {
+    return "/api/v1";
+  }
+  return "http://localhost:8000/api/v1";
+};
+
+export const API_BASE = getApiBase();
 
 export type SearchParams = {
   q?: string;

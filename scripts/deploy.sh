@@ -66,7 +66,11 @@ python -m alembic upgrade head
 
 echo "=== Frontend: build ==="
 cd /home/colegios/app/frontend
-echo "PUBLIC_API_BASE_URL=http://127.0.0.1:8000/api/v1" > .env
+if [ -f .env.production ]; then
+  cp .env.production .env
+else
+  echo "PUBLIC_API_BASE_URL=/api/v1" > .env
+fi
 npm install
 NODE_OPTIONS=--max-old-space-size=512 npm run build
 

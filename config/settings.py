@@ -34,6 +34,7 @@ class Settings(BaseSettings):
     )
 
     # ── Backend / persistencia ──
+    environment: str = "development"
     database_url: str = "postgresql+asyncpg://colegios:colegios@localhost:5432/colegios"
     api_port: int = 8000
     frontend_port: int = 4321

@@ -170,13 +170,19 @@ log "=== Configurando backend ==="
 cd /home/colegios/app
 [ -d .venv ] || python3 -m venv .venv
 
-cat > .env << ENVEOF
+if [ -f .env.production ]; then
+  sed "s/\${DB_PASSWORD}/${db_password}/g" .env.production > .env
+  log "  .env configurado desde .env.production"
+else
+  cat > .env << ENVEOF
+ENVIRONMENT=production
 DATABASE_URL=postgresql+asyncpg://colegios:${db_password}@localhost:5432/colegios
 API_PORT=8000
 FRONTEND_PORT=4321
-LOG_LEVEL=INFO
+LOG_LEVEL=WARNING
 ENVEOF
-log "  Backend configurado"
+  log "  .env configurado inline (fallback)"
+fi
 
 # ──────────────────────────────────────────────
 # 9. Servicios systemd
