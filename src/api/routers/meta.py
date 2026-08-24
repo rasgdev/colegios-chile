@@ -30,7 +30,7 @@ async def stats(
     if (not_modified := apply_etag(request, response)) is not None:
         return not_modified
 
-    async def _count(model) -> int:
+    async def _count(model: type[orm.Base]) -> int:
         return (await session.execute(select(func.count()).select_from(model))).scalar_one()
 
     return StatsResponse(

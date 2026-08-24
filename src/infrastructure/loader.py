@@ -17,12 +17,12 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any, Iterable, cast
 
 import polars as pl
 import structlog
 from sqlalchemy import text
-from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
+from sqlalchemy.ext.asyncio import AsyncConnection, AsyncEngine, create_async_engine
 
 from config.settings import settings
 
@@ -126,7 +126,7 @@ def _transform_establecimientos(df: pl.DataFrame) -> pl.DataFrame:
     return df
 
 
-def _derive_regiones_comunas(sedes: pl.DataFrame) -> tuple[list[dict], list[dict]]:
+def _derive_regiones_comunas(sedes: pl.DataFrame) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     regiones = (
         sedes.select(["codigo_region", "region"])
         .unique()
@@ -179,13 +179,13 @@ class ParquetLoader:
             dfs[name] = pl.read_parquet(path)
         return dfs
 
-    async def _truncate_staging(self, conn) -> None:
+    async def _truncate_staging(self, conn: AsyncConnection) -> None:
         tables = ["regiones", "comunas"] + PARQUET_TABLES
         staging = ", ".join(f'"{t}_staging"' for t in tables)
         await conn.execute(text(f"TRUNCATE TABLE {staging}"))
         log.info("staging_truncated", tables=tables)
 
-    async def _insert(self, conn, table: str, cols: list[str], rows: list[dict]) -> None:
+    async def _insert(self, conn: AsyncConnection, table: str, cols: list[str], rows: list[dict[str, Any]]) -> None:
         col_list = ", ".join(cols)
         placeholders = ", ".join(f":{c}" for c in cols)
         stmt = text(f'INSERT INTO "{table}_staging" ({col_list}) VALUES ({placeholders})')
@@ -195,7 +195,7 @@ class ParquetLoader:
             total += len(chunk)
         log.info("staging_inserted", table=table, rows=total)
 
-    async def _validate_staging(self, conn) -> None:
+    async def _validate_staging(self, conn: AsyncConnection) -> None:
         checks: dict[str, str] = {
             "regiones_nulls": "SELECT count(*) FROM regiones_staging WHERE codigo IS NULL OR nombre IS NULL",
             "comunas_nulls": "SELECT count(*) FROM comunas_staging WHERE codigo IS NULL OR nombre IS NULL OR codigo_region IS NULL",
@@ -219,14 +219,14 @@ class ParquetLoader:
 
         failures = []
         for name, sql in checks.items():
-            (n,) = (await conn.execute(text(sql))).fetchone()
+            n = cast(int, (await conn.execute(text(sql))).scalar_one())
             if n != 0:
                 failures.append(f"{name}: {n} filas inválidas")
 
         # Conteos mínimos razonables.
         counts = {}
         for t in ["establecimientos", "sedes", "cursos"]:
-            (n,) = (await conn.execute(text(f"SELECT count(*) FROM {t}_staging"))).fetchone()
+            n = cast(int, (await conn.execute(text(f"SELECT count(*) FROM {t}_staging"))).scalar_one())
             counts[t] = n
 
         if counts["establecimientos"] < 100:
@@ -239,7 +239,7 @@ class ParquetLoader:
 
         log.info("staging_validated", counts=counts)
 
-    async def _swap(self, conn) -> None:
+    async def _swap(self, conn: AsyncConnection) -> None:
         tables = ["regiones", "comunas"] + PARQUET_TABLES
         await conn.execute(text("TRUNCATE TABLE " + ", ".join(tables) + " RESTART IDENTITY CASCADE"))
 
@@ -267,7 +267,7 @@ class ParquetLoader:
             ("cursos", "cursos"), ("indicadores", "indicadores"),
             ("actividades", "actividades"), ("imagenes", "imagenes"),
         ]:
-            (n,) = (await conn.execute(text(f'SELECT count(*) FROM "{t}"'))).fetchone()
+            n = cast(int, (await conn.execute(text(f'SELECT count(*) FROM "{t}"'))).scalar_one())
             setattr(self.summary, attr, n)
 
         log.info("swap_completed", counts=self.summary.as_dict())

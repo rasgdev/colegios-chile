@@ -6,7 +6,10 @@ Elasticsearch, se reemplazaría este servicio, no los repositorios.
 """
 from __future__ import annotations
 
+from typing import Any
+
 from sqlalchemy import text
+from sqlalchemy.engine import RowMapping
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.domain.entities import (
@@ -44,7 +47,7 @@ def _nivel_case(column: str) -> str:
     return f"CASE {column} {cases} ELSE NULL END"
 
 
-def _row_to_establecimiento(row) -> Establecimiento:
+def _row_to_establecimiento(row: RowMapping) -> Establecimiento:
     return Establecimiento(
         rbd=row.rbd,
         nombre=row.nombre,
@@ -114,9 +117,9 @@ class SearchService:
             offset=query.offset,
         )
 
-    def _build_where(self, query: SearchQuery) -> tuple[list[str], dict, bool]:
+    def _build_where(self, query: SearchQuery) -> tuple[list[str], dict[str, Any], bool]:
         where: list[str] = []
-        params: dict = {}
+        params: dict[str, Any] = {}
         q = query.q.strip() if query.q else ""
         has_q = bool(q)
 
