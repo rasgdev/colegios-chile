@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Optional
 
 from pydantic import BaseModel, Field
 
@@ -132,9 +132,9 @@ class EstablecimientoDetalle(BaseModel):
     imagenes: list[Imagen] = Field(default_factory=list)
     distancia: Optional[float] = None
     actividades: list[Actividad] = Field(default_factory=list)
-    procesosEspeciales: list = Field(default_factory=list)
+    procesosEspeciales: list[Any] = Field(default_factory=list)
     indicadores: list[Indicador] = Field(default_factory=list)
-    especialidades: list = Field(default_factory=list)
+    especialidades: list[Any] = Field(default_factory=list)
 
 
 class EstablecimientoBasico(BaseModel):
@@ -149,4 +149,4 @@ class EstablecimientoBasico(BaseModel):
     sedes: list[Sede] = Field(default_factory=list)
     imagenes: list[Imagen] = Field(default_factory=list)
     distancia: Optional[float] = None
-    procesosEspeciales: list = Field(default_factory=list)
+    procesosEspeciales: list[Any] = Field(default_factory=list)
