@@ -17,7 +17,7 @@ class RateLimiter:
     _consecutive_5xx: int = field(default=0, init=False)
     _response_times: list[float] = field(default_factory=list, init=False)
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.semaphore = asyncio.Semaphore(self.max_concurrent)
 
     @property

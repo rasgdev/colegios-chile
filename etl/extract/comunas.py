@@ -1,6 +1,7 @@
 import json
 import re
 import unicodedata
+from typing import cast
 
 import httpx
 import structlog
@@ -71,7 +72,7 @@ async def fetch_comunas_raw() -> list[str]:
         response = await client.get(settings.comunas_api_url)
         response.raise_for_status()
         data = response.json()
-        return data["data"]["comunas"]
+        return cast(list[str], data["data"]["comunas"])
 
 
 async def discover_comunas(client: APIClient) -> dict[str, str]:
@@ -116,4 +117,4 @@ def cargar_mapeo_comunas() -> dict[str, str]:
         raise FileNotFoundError(
             f"Mapping file not found: {settings.comunas_mapeo_file}. Run discover_comunas first."
         )
-    return json.loads(settings.comunas_mapeo_file.read_text())
+    return cast(dict[str, str], json.loads(settings.comunas_mapeo_file.read_text()))

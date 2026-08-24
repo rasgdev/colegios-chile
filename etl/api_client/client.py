@@ -1,5 +1,5 @@
 import time
-from typing import Any
+from typing import Any, cast
 
 import httpx
 import structlog
@@ -83,12 +83,12 @@ class APIClient:
         client = await self._get_client()
         response = await client.get(settings.comunas_api_url)
         response.raise_for_status()
-        return response.json()
+        return cast(list[dict[str, Any]], response.json())
 
     async def get_establecimientos_por_comuna(self, comuna: str) -> list[dict[str, Any]]:
         response = await self._request(f"/sae-api-vitrina/v1/establecimientos?comuna={comuna}")
-        return response.json()
+        return cast(list[dict[str, Any]], response.json())
 
     async def get_detalle_establecimiento(self, rbd: int) -> dict[str, Any]:
         response = await self._request(f"/sae-api-vitrina/v1/establecimientos/{rbd}")
-        return response.json()
+        return cast(dict[str, Any], response.json())
