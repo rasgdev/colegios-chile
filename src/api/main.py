@@ -1,4 +1,5 @@
 """FastAPI app factory + lifespan + CORS + rate limiting."""
+# CI/CD test change — safe to revert
 from __future__ import annotations
 
 import json
