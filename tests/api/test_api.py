@@ -158,3 +158,11 @@ def test_compare_emite_etag(client):
     r = client.get("/api/v1/compare", params={"rbds": "60,22248"})
     assert r.status_code == 200
     assert r.headers.get("ETag")
+
+
+def test_search_q_sin_coincidencias(client):
+    r = client.get("/api/v1/search", params={"q": "xyz123sinresultados", "limit": 10})
+    assert r.status_code == 200
+    body = r.json()
+    assert body["total"] == 0
+    assert body["results"] == []
