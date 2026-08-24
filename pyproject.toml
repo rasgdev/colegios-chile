@@ -36,6 +36,7 @@ dev = [
     "pytest-httpx>=0.28.0",
     "ruff>=0.1.0",
     "mypy>=1.8.0",
+    "types-tqdm>=4.66.0",
 ]
 
 [tool.setuptools.packages.find]
@@ -55,8 +56,6 @@ ignore = ["E501", "B008"]
 
 [tool.mypy]
 python_version = "3.12"
-check_untyped_defs = true
-warn_redundant_casts = true
+strict = true
 warn_unused_ignores = true
-no_implicit_optional = true
-files = ["src"]
+files = ["src", "config", "etl"]

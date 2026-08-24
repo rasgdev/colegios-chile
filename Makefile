@@ -50,7 +50,7 @@ test:
 	python3 -m pytest
 
 typecheck:
-	python3 -m mypy src
+	python3 -m mypy src config etl
 
 lint:
 	ruff check src etl config scripts tests
