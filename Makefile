@@ -1,5 +1,5 @@
 .PHONY: help install install-dev test typecheck lint discover etl transform validate load-db all clean \
-	db-up db-down init-db migrate seed-demo backend frontend frontend-lint frontend-typecheck
+	db-up db-down init-db migrate seed-demo seed-test backend frontend frontend-lint frontend-typecheck
 
 .DEFAULT_GOAL := help
 
@@ -27,6 +27,7 @@ help:
 	@echo "Aplicación:"
 	@echo "  backend     Levanta FastAPI en :8000 (uvicorn)."
 	@echo "  seed-demo   Inserta 50 colegios demo determinísticos (portafolio)."
+	@echo "  seed-test   Inserta datos de prueba determinísticos para tests."
 	@echo "  frontend    Levanta Astro en :4321 (disponible en F3)."
 	@echo ""
 	@echo "Utilidades:"
@@ -89,6 +90,9 @@ load-db:
 
 seed-demo:
 	python3 scripts/seed_demo.py
+
+seed-test:
+	python3 scripts/seed_test.py
 
 backend:
 	python3 -m uvicorn src.api.main:app --host 0.0.0.0 --port 8000 --reload
