@@ -219,6 +219,7 @@ WorkingDirectory=/home/colegios/app/frontend
 Environment=PATH=/home/colegios/app/frontend/node_modules/.bin:/usr/local/bin:/usr/bin:/bin
 Environment=HOST=127.0.0.1
 Environment=PORT=4321
+Environment=NODE_ENV=production
 ExecStart=/usr/bin/node ./dist/server/entry.mjs
 Restart=always
 RestartSec=5
