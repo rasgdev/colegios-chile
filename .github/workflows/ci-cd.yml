@@ -1,0 +1,124 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  backend-ci:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: colegios
+          POSTGRES_PASSWORD: colegios
+          POSTGRES_DB: colegios
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U colegios -d colegios"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgresql+asyncpg://colegios:colegios@localhost:5432/colegios
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install dependencies
+        run: pip install -e ".[dev]"
+
+      - name: Run migrations
+        run: alembic upgrade head
+
+      - name: Ruff lint
+        run: ruff check src etl config scripts tests
+
+      - name: MyPy
+        run: mypy src
+
+      - name: Tests
+        run: pytest
+
+  frontend-ci:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build
+        env:
+          PUBLIC_API_BASE_URL: http://localhost:8000/api/v1
+        run: npm run build
+
+  deploy:
+    needs: [backend-ci, frontend-ci]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    concurrency:
+      group: deploy-gcp
+      cancel-in-progress: false
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT }}
+
+      - name: Deploy por SSH (IAP)
+        uses: google-github-actions/ssh-compute@v1
+        with:
+          instance_name: colegios-server
+          zone: us-central1-a
+          user: colegios
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          command: 'cd /home/colegios/app && bash scripts/deploy.sh'
+        env:
+          DEPLOY_REF: ${{ github.sha }}
+
+      - name: Smoke test
+        run: |
+          IP=$(gcloud compute addresses describe colegios-static-ip \
+            --region us-central1 --format="value(address)")
+          curl -fsS --retry 5 --retry-delay 5 --retry-all-errors \
+            "http://${IP}/api/v1/health"
